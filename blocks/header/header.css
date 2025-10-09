@@ -9,8 +9,8 @@ header {
   left: 0;
   right: 0;
   z-index: 9999;
-  overflow: hidden;
-  max-height: calc(var(--header-height) + 40px);
+  overflow: visible;
+  min-height: 200px;
 
   ul {
     margin: 0;
