@@ -121,28 +121,9 @@ function decorateMenu(li) {
   return null;
 }
 
-function decorateMegaMenu(li) {
-  const menu = li.querySelector('.fragment-content');
-  if (!menu) return null;
-  const megaList = menu.closest('ul');
-  const wrapper = document.createElement('div');
-  wrapper.className = 'mega-menu';
-  wrapper.append(menu);
-  megaList.parentElement.replaceChild(wrapper, megaList);
-  return wrapper;
-}
+// Removed unused decorateMegaMenu function
 
-function decorateNavItem(li) {
-  li.classList.add('main-nav-item');
-  const link = li.querySelector(':scope > p > a');
-  if (link) link.classList.add('main-nav-link');
-  const menu = decorateMegaMenu(li) || decorateMenu(li);
-  if (!(menu || link)) return;
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleMenu(li);
-  });
-}
+// Removed unused decorateNavItem function
 
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
@@ -157,39 +138,39 @@ function decorateBrandSection(section) {
 function decorateNavSection(section) {
   section.classList.add('main-nav-section');
   const navContent = section.querySelector('.default-content');
-  
+
   // Create navigation structure
   const navLinks = document.createElement('div');
   navLinks.className = 'nav-links';
-  
+
   const actionLinks = document.createElement('div');
   actionLinks.className = 'action-links';
-  
+
   // Get navigation links from the brand section (which has the main nav)
   const header = section.closest('header');
   const brandSection = header.querySelector('.brand-section');
-  
+
   // Move navigation links from brand section to nav section
   if (brandSection) {
     const brandLinks = brandSection.querySelectorAll('a');
-    brandLinks.forEach(link => {
-      if (link.href.includes('vending') || link.href.includes('get-started') || 
-          link.href.includes('financing') || link.href.includes('why-vending') ||
-          link.href.includes('support') || link.href.includes('resources') ||
-          link.href.includes('about')) {
+    brandLinks.forEach((link) => {
+      if (link.href.includes('vending') || link.href.includes('get-started')
+          || link.href.includes('financing') || link.href.includes('why-vending')
+          || link.href.includes('support') || link.href.includes('resources')
+          || link.href.includes('about')) {
         navLinks.appendChild(link);
       }
     });
   }
-  
+
   // Move existing action links from this section
   const links = navContent.querySelectorAll('a');
-  links.forEach(link => {
+  links.forEach((link) => {
     if (link.href.includes('search') || link.href.includes('contact')) {
       actionLinks.appendChild(link);
     }
   });
-  
+
   // Clear existing content and add new structure
   navContent.innerHTML = '';
   navContent.appendChild(navLinks);
@@ -198,19 +179,28 @@ function decorateNavSection(section) {
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
-  
+
   // Style Contact Us button
   const contactLinks = section.querySelectorAll('a');
-  contactLinks.forEach(link => {
+  contactLinks.forEach((link) => {
     if (link.textContent.toLowerCase().includes('contact')) {
       link.classList.add('contact-btn');
     }
   });
 }
 
+function decorateBrandsSection(section) {
+  section.classList.add('brands-section');
+  // Keep the existing "Author Kit" content but style it
+  const link = section.querySelector('a');
+  if (link) {
+    link.style.color = '#ff6600';
+  }
+}
+
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  
+
   // Process brands section first (if it exists)
   if (sections[0] && sections[0].querySelector('a[href*="Author"]')) {
     decorateBrandsSection(sections[0]);
@@ -226,15 +216,6 @@ async function decorateHeader(fragment) {
 
   for (const pattern of HEADER_ACTIONS) {
     decorateAction(fragment, pattern);
-  }
-}
-
-function decorateBrandsSection(section) {
-  section.classList.add('brands-section');
-  // Keep the existing "Author Kit" content but style it
-  const link = section.querySelector('a');
-  if (link) {
-    link.style.color = '#ff6600';
   }
 }
 
