@@ -316,6 +316,9 @@ a {
 }
 
 main {
+  position: relative;
+  z-index: 1;
+  
   ul,
   ol {
     padding-inline-start: 24px;
