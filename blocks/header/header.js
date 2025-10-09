@@ -128,16 +128,20 @@ function decorateMenu(li) {
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
-  const [, text] = brandLink.childNodes;
-  const span = document.createElement('span');
-  span.className = 'brand-text';
-  span.append(text);
-  brandLink.append(span);
+  if (brandLink && brandLink.childNodes.length > 1) {
+    const [, text] = brandLink.childNodes;
+    const span = document.createElement('span');
+    span.className = 'brand-text';
+    span.append(text);
+    brandLink.append(span);
+  }
 }
 
 function decorateNavSection(section) {
   section.classList.add('main-nav-section');
   const navContent = section.querySelector('.default-content');
+  
+  if (!navContent) return;
 
   // Create navigation structure
   const navLinks = document.createElement('div');
@@ -148,7 +152,7 @@ function decorateNavSection(section) {
 
   // Get navigation links from the brand section (which has the main nav)
   const header = section.closest('header');
-  const brandSection = header.querySelector('.brand-section');
+  const brandSection = header ? header.querySelector('.brand-section') : null;
 
   // Move navigation links from brand section to nav section
   if (brandSection) {
