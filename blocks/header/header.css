@@ -273,23 +273,47 @@ header {
       text-decoration: none;
       font-weight: 500;
       font-size: var(--body-font-size-m);
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       
       &:hover {
         color: #ff6600;
       }
       
+      &[href*="search"] {
+        padding: 8px 12px;
+        border-radius: 25px;
+        border: 2px solid transparent;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        &::before {
+          content: "🔍";
+          font-size: 16px;
+        }
+      }
+      
       &[href*="contact"] {
         background-color: #ff6600;
         color: #fff;
-        padding: 8px 16px;
-        border-radius: 4px;
+        padding: 12px 24px;
+        border-radius: 25px;
         text-transform: uppercase;
         font-weight: 600;
         font-size: var(--body-font-size-s);
+        letter-spacing: 0.5px;
+        border: 2px solid #ff6600;
         
         &:hover {
           background-color: #e55a00;
+          border-color: #e55a00;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(255, 102, 0, 0.3);
         }
       }
     }
