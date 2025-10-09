@@ -2,6 +2,8 @@
   position: relative;
   color: #fff;
   overflow: hidden;
+  z-index: 0;
+  margin-top: calc(-1 * var(--header-height));
 
   --min-height: 360px;
 
@@ -25,7 +27,84 @@
     color: var(--color-light);
   }
 
+  /* Dark overlay for better text readability */
+  &.dark-overlay .hero-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+  
+  /* Dark background for text area */
+  &.dark-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  /* Enhanced button styling */
+  .btn {
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    border: 2px solid transparent;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    &.btn-primary {
+      background-color: #ff6600;
+      color: white;
+      border-color: #ff6600;
+
+      &:hover {
+        background-color: #e55a00;
+        border-color: #e55a00;
+      }
+    }
+
+    &.btn-secondary {
+      background-color: transparent;
+      color: white;
+      border-color: white;
+
+      &:hover {
+        background-color: white;
+        color: var(--color-dark);
+      }
+    }
+  }
+
+  /* Button wrapper for side-by-side layout */
+  .button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
   .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    
     picture {
       position: absolute;
       inset: 0;
@@ -56,9 +135,21 @@
     position: relative;
     display: flex;
     align-items: center;
+    z-index: 2;
+    
+    /* Split layout for text and background */
+    > div {
+      flex: 1;
+      max-width: 50%;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
 
     p {
       margin: 8px 0;
+      font-size: var(--body-font-size-xl);
+      line-height: 1.6;
     }
 
     div > *:first-child {
@@ -71,10 +162,21 @@
 
     .hero-detail {
       margin: 0;
+      font-size: var(--body-font-size-l);
+      opacity: 0.9;
     }
 
     .hero-heading {
-      margin: 0;
+      margin: 0 0 16px 0;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
+      }
     }
   }
 

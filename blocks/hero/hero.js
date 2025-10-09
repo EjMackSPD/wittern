@@ -28,6 +28,44 @@ function decorateForeground(fg) {
       detail.classList.add('hero-detail');
     }
   }
+
+  // Handle multiple CTAs
+  const links = fg.querySelectorAll('a');
+  if (links.length > 1) {
+    const buttonWrapper = document.createElement('div');
+    buttonWrapper.classList.add('button-wrapper');
+    
+    links.forEach((link, index) => {
+      link.classList.add('btn');
+      if (index === 0) {
+        link.classList.add('btn-primary');
+      } else {
+        link.classList.add('btn-secondary');
+      }
+      buttonWrapper.appendChild(link);
+    });
+    
+    // Insert button wrapper after the last paragraph or heading
+    const lastElement = fg.querySelector('p:last-of-type, h1:last-of-type, h2:last-of-type, h3:last-of-type, h4:last-of-type, h5:last-of-type, h6:last-of-type');
+    if (lastElement) {
+      lastElement.parentNode.insertBefore(buttonWrapper, lastElement.nextSibling);
+    } else {
+      fg.appendChild(buttonWrapper);
+    }
+  } else if (links.length === 1) {
+    const link = links[0];
+    link.classList.add('btn', 'btn-primary');
+    const buttonWrapper = document.createElement('div');
+    buttonWrapper.classList.add('button-wrapper');
+    buttonWrapper.appendChild(link);
+    
+    const lastElement = fg.querySelector('p:last-of-type, h1:last-of-type, h2:last-of-type, h3:last-of-type, h4:last-of-type, h5:last-of-type, h6:last-of-type');
+    if (lastElement) {
+      lastElement.parentNode.insertBefore(buttonWrapper, lastElement.nextSibling);
+    } else {
+      fg.appendChild(buttonWrapper);
+    }
+  }
 }
 
 export default async function init(el) {
@@ -40,4 +78,7 @@ export default async function init(el) {
     bg.classList.add('hero-background');
     decorateBackground(el, bg);
   }
+  
+  // Add dark overlay class for better text readability
+  el.classList.add('dark-overlay', 'large');
 }

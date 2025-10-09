@@ -1,0 +1,35 @@
+<svg width="1200" height="600" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="600" fill="#1a1a2e"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="450" width="1200" height="150" fill="#2c2c54"/>
+  
+  <!-- Vending machines -->
+  <rect x="200" y="300" width="120" height="200" fill="#4a4a6a" rx="8"/>
+  <rect x="220" y="320" width="80" height="120" fill="#0f0f23"/>
+  <rect x="240" y="340" width="40" height="80" fill="#00d4aa"/>
+  
+  <rect x="450" y="280" width="120" height="220" fill="#4a4a6a" rx="8"/>
+  <rect x="470" y="300" width="80" height="140" fill="#0f0f23"/>
+  <rect x="490" y="320" width="40" height="100" fill="#00d4aa"/>
+  
+  <rect x="700" y="310" width="120" height="190" fill="#4a4a6a" rx="8"/>
+  <rect x="720" y="330" width="80" height="110" fill="#0f0f23"/>
+  <rect x="740" y="350" width="40" height="70" fill="#00d4aa"/>
+  
+  <!-- Person silhouette -->
+  <ellipse cx="900" cy="420" rx="20" ry="40" fill="#6c5ce7"/>
+  <ellipse cx="900" cy="380" rx="15" ry="25" fill="#fd79a8"/>
+  
+  <!-- Items in hand -->
+  <rect x="880" y="400" width="10" height="15" fill="#fdcb6e" rx="2"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="3" fill="#00d4aa"/>
+  <circle cx="1100" cy="80" r="4" fill="#fdcb6e"/>
+  <circle cx="1050" cy="150" r="2" fill="#fd79a8"/>
+  
+  <!-- Text overlay area (darkened) -->
+  <rect x="0" y="0" width="600" height="600" fill="rgba(0,0,0,0.4)"/>
+</svg>

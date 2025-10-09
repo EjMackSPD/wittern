@@ -139,12 +139,12 @@
   --font-family: montserrat, "Trebuchet MS", sans-serif;
 
   /* headings */
-  --heading-font-size-xxl: 32.44px;
-  --heading-font-size-xl: 28.83px;
-  --heading-font-size-l: 25.63px;
-  --heading-font-size-m: 22.78px;
-  --heading-font-size-s: 20.25px;
-  --heading-font-size-xs: 18px;
+  --heading-font-size-xxl: 64px;
+  --heading-font-size-xl: 48px;
+  --heading-font-size-l: 36px;
+  --heading-font-size-m: 28px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 20px;
   --heading-line-height: 1.15;
 
   /* body */
@@ -200,15 +200,25 @@ header {
 
 a {
   color: var(--color-link);
+  transition: color 0.3s ease;
 
   &.btn {
     display: inline-block;
     line-height: 1;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     border: 2px solid;
-    padding: 8px 12px;
+    padding: 12px 24px;
     box-sizing: border-box;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
 
     &.btn-outline {
       background: transparent;
@@ -220,8 +230,18 @@ a {
     background: var(--color-accent);
     border: 2px solid var(--color-accent);
 
+    &:hover {
+      background: var(--color-magenta-700);
+      border-color: var(--color-magenta-700);
+    }
+
     &.btn-outline {
       color: var(--color-accent);
+
+      &:hover {
+        background: var(--color-accent);
+        color: #fff;
+      }
     }
   }
 
@@ -229,9 +249,18 @@ a {
     color: light-dark(var(--color-light), var(--color-dark));
     background-color: light-dark(var(--color-dark), var(--color-light));
 
+    &:hover {
+      opacity: 0.9;
+    }
+
     &.btn-outline {
       color: light-dark(var(--color-dark), var(--color-light));
       background: transparent;
+
+      &:hover {
+        background: light-dark(var(--color-dark), var(--color-light));
+        color: light-dark(var(--color-light), var(--color-dark));
+      }
     }
   }
 
@@ -240,8 +269,18 @@ a {
     background-color: var(--color-gray-500);
     border: 2px solid var(--color-gray-500);
 
+    &:hover {
+      background: var(--color-gray-600);
+      border-color: var(--color-gray-600);
+    }
+
     &.btn-outline {
       color: var(--color-gray-500);
+
+      &:hover {
+        background: var(--color-gray-500);
+        color: #fff;
+      }
     }
   }
 
@@ -250,8 +289,18 @@ a {
     background-color: var(--color-red-600);
     border: 2px solid var(--color-red-600);
 
+    &:hover {
+      background: var(--color-red-700);
+      border-color: var(--color-red-700);
+    }
+
     &.btn-outline {
       color: var(--color-red-600);
+
+      &:hover {
+        background: var(--color-red-600);
+        color: #fff;
+      }
     }
   }
 }
