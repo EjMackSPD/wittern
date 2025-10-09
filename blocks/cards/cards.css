@@ -1,0 +1,17 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-l, 2.5rem);
+}
+
+.cards .card {
+  background: var(--color-background);
+  border-radius: var(--border-radius, 8px);
+  overflow: hidden;
+}
+
+.cards .card-picture img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

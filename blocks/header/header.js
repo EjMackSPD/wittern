@@ -43,7 +43,9 @@ function decorateLanguage(btn) {
     if (!menu) {
       const content = document.createElement('div');
       content.classList.add('block-content');
-      const fragment = await loadFragment(`${locale.prefix}${HEADER_PATH}/languages`);
+      const fragment = await loadFragment(
+        `${locale.prefix}${HEADER_PATH}/languages`,
+      );
       menu = document.createElement('div');
       menu.className = 'language menu';
       menu.append(fragment);
@@ -60,8 +62,9 @@ function decorateScheme(btn) {
 
     let currPref = localStorage.getItem('color-scheme');
     if (!currPref) {
-      currPref = matchMedia('(prefers-color-scheme: dark)')
-        .matches ? 'dark-scheme' : 'light-scheme';
+      currPref = matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark-scheme'
+        : 'light-scheme';
     }
 
     const theme = currPref === 'dark-scheme'
@@ -101,7 +104,10 @@ async function decorateAction(header, pattern) {
     btn.append(textSpan);
   }
   const wrapper = document.createElement('div');
-  wrapper.className = `action-wrapper ${icon.classList[1].replace('icon-', '')}`;
+  wrapper.className = `action-wrapper ${icon.classList[1].replace(
+    'icon-',
+    '',
+  )}`;
   wrapper.append(btn);
   link.parentElement.parentElement.replaceChild(wrapper, link.parentElement);
 
@@ -110,6 +116,7 @@ async function decorateAction(header, pattern) {
   if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
 }
 
+// eslint-disable-next-line no-unused-vars
 function decorateMenu(li) {
   return null;
 }

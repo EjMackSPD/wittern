@@ -20,7 +20,9 @@ class AemScheduler extends LitElement {
   }
 
   handleSet(timestamp) {
-    const { origin, pathname, searchParams, hash } = new URL(window.location.href);
+    const { origin, pathname, searchParams, hash } = new URL(
+      window.location.href,
+    );
     if (!timestamp) {
       searchParams.delete('schedule');
       localStorage.removeItem('aem-schedule');
@@ -63,17 +65,36 @@ class AemScheduler extends LitElement {
 
   renderDate() {
     const { date, time } = formatDate(Number(this.current));
-    const { date: utcDate, time: utcTime } = formatDate(Number(this.current), 'UTC');
+    const { date: utcDate, time: utcTime } = formatDate(
+      Number(this.current),
+      'UTC',
+    );
 
     return html`
       <div class="date-group">
         <div class="date-tabs">
-          <button @click=${this.handleTabClick} class="date-tab ${this._format === 'local' ? 'is-selected' : ''}">Local</button>
-          <button @click=${this.handleTabClick} class="date-tab ${this._format === 'utc' ? 'is-selected' : ''}">UTC</button>
+          <button
+            @click=${this.handleTabClick}
+            class="date-tab ${this._format === 'local' ? 'is-selected' : ''}"
+          >
+            Local
+          </button>
+          <button
+            @click=${this.handleTabClick}
+            class="date-tab ${this._format === 'utc' ? 'is-selected' : ''}"
+          >
+            UTC
+          </button>
         </div>
         <div class="date-values">
-          <p class="date-value ${this._format === 'local' ? 'is-selected' : ''}">${date} ${time}</p>
-          <p class="date-value ${this._format === 'utc' ? 'is-selected' : ''}">${utcDate} ${utcTime}</p>
+          <p
+            class="date-value ${this._format === 'local' ? 'is-selected' : ''}"
+          >
+            ${date} ${time}
+          </p>
+          <p class="date-value ${this._format === 'utc' ? 'is-selected' : ''}">
+            ${utcDate} ${utcTime}
+          </p>
         </div>
       </div>
     `;
@@ -89,7 +110,9 @@ class AemScheduler extends LitElement {
       </div>
       <div class="actions">
         <button @click=${() => this.handleSet()}>Close</button>
-        <button @click=${this.handleChange}>${this._isChanging ? 'Accept' : 'Change'}</button>
+        <button @click=${this.handleChange}>
+          ${this._isChanging ? 'Accept' : 'Change'}
+        </button>
       </div>
     `;
   }
@@ -101,7 +124,9 @@ customElements.define(EL_NAME, AemScheduler);
  * This will toggle the scheduler.
  */
 export default function toggleScheduler() {
-  const { origin, pathname, searchParams, hash } = new URL(window.location.href);
+  const { origin, pathname, searchParams, hash } = new URL(
+    window.location.href,
+  );
 
   const querySim = searchParams.get('schedule');
   const localSim = localStorage.getItem('aem-schedule');
@@ -148,4 +173,3 @@ export default function toggleScheduler() {
 
   scheduler.current = sim;
 }());
-
