@@ -138,28 +138,13 @@ function decorateBrandSection(section) {
 }
 
 function decorateNavSection(section) {
-  console.log('=== decorateNavSection CALLED ===');
-  console.log('Section:', section);
-  
   section.classList.add('main-nav-section');
-  
-  // Force visibility immediately
-  section.style.display = 'block';
-  section.style.visibility = 'visible';
-  section.style.opacity = '1';
-  section.style.backgroundColor = 'red'; // Make it obvious for debugging
-  section.style.minHeight = '100px';
-  section.style.position = 'relative';
-  section.style.zIndex = '99999';
   
   const navContent = section.querySelector('.default-content');
   
   if (!navContent) {
-    console.error('No navContent found in main-nav-section');
     return;
   }
-
-  console.log('Nav section original HTML:', navContent.innerHTML.substring(0, 200));
 
   // Create navigation structure
   const navLinks = document.createElement('div');
@@ -170,10 +155,8 @@ function decorateNavSection(section) {
 
   // Get all links from THIS section's existing content
   const existingLinks = navContent.querySelectorAll('a');
-  console.log('Found existing links in nav section:', existingLinks.length);
   
   existingLinks.forEach((link) => {
-    console.log('Processing link:', link.textContent, link.href);
     navLinks.appendChild(link.cloneNode(true));
   });
 
@@ -181,21 +164,20 @@ function decorateNavSection(section) {
   const fragment = section.closest('.header-content');
   if (fragment) {
     const allSections = fragment.querySelectorAll('.section');
-    console.log('Total sections in fragment:', allSections.length);
     
-    allSections.forEach((sect, index) => {
+    allSections.forEach((sect) => {
       const sectContent = sect.querySelector('.default-content');
       if (sectContent) {
         const searchLink = sectContent.querySelector('a[href*="search"]');
         const contactLink = sectContent.querySelector('a[href*="contact"]');
         
         if (searchLink) {
-          console.log('Found search link in section', index);
           actionLinks.appendChild(searchLink.cloneNode(true));
         }
         if (contactLink) {
-          console.log('Found contact link in section', index);
-          actionLinks.appendChild(contactLink.cloneNode(true));
+          const clonedContact = contactLink.cloneNode(true);
+          clonedContact.classList.add('contact-btn');
+          actionLinks.appendChild(clonedContact);
         }
       }
     });
@@ -205,10 +187,6 @@ function decorateNavSection(section) {
   navContent.innerHTML = '';
   navContent.appendChild(navLinks);
   navContent.appendChild(actionLinks);
-  
-  console.log('Nav links count:', navLinks.children.length);
-  console.log('Action links count:', actionLinks.children.length);
-  console.log('Final navContent HTML:', navContent.innerHTML.substring(0, 300));
 }
 
 async function decorateActionSection(section) {
@@ -235,14 +213,9 @@ function decorateBrandsSection(section) {
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
   
-  console.log('Total sections found:', sections.length);
-  sections.forEach((section, index) => {
-    console.log(`Section ${index}:`, section.innerHTML.substring(0, 100));
-  });
-
   // Based on the actual HTML structure:
-  // Section 0: brand-section (has the navigation links)
-  // Section 1: main-nav-section (empty, needs to be populated)
+  // Section 0: brand-section (has "Our Family of Brands")
+  // Section 1: main-nav-section (has the navigation links)
   // Section 2: actions-section (has search and contact links)
   
   if (sections[0]) {
