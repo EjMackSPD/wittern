@@ -235,18 +235,27 @@ function decorateBrandsSection(section) {
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
+  
+  console.log('Total sections found:', sections.length);
+  sections.forEach((section, index) => {
+    console.log(`Section ${index}:`, section.innerHTML.substring(0, 100));
+  });
 
-  // Process brands section first (if it exists)
-  if (sections[0] && sections[0].querySelector('a[href*="Author"]')) {
-    decorateBrandsSection(sections[0]);
-    if (sections[1]) decorateBrandSection(sections[1]);
-    if (sections[2]) decorateNavSection(sections[2]);
-    if (sections[3]) decorateActionSection(sections[3]);
-  } else {
-    // Original structure: brand, nav, actions
-    if (sections[0]) decorateBrandSection(sections[0]);
-    if (sections[1]) decorateNavSection(sections[1]);
-    if (sections[2]) decorateActionSection(sections[2]);
+  // Based on the actual HTML structure:
+  // Section 0: brand-section (has the navigation links)
+  // Section 1: main-nav-section (empty, needs to be populated)
+  // Section 2: actions-section (has search and contact links)
+  
+  if (sections[0]) {
+    decorateBrandSection(sections[0]);
+  }
+  
+  if (sections[1]) {
+    decorateNavSection(sections[1]);
+  }
+  
+  if (sections[2]) {
+    decorateActionSection(sections[2]);
   }
 
   for (const pattern of HEADER_ACTIONS) {
