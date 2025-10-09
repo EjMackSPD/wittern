@@ -215,11 +215,11 @@ header {
       background-color: #ff6600;
       color: #fff;
       padding: 8px 16px;
-      border-radius: 4px;
+      border-radius: 20px;
       text-decoration: none;
       font-weight: 600;
       text-transform: uppercase;
-      font-size: var(--body-font-size-s);
+      font-size: var(--body-font-size-xs);
       margin-left: 16px;
       
       &:hover {
@@ -340,11 +340,11 @@ header {
       &[href*="contact"] {
         background-color: #ff6600;
         color: #fff;
-        padding: 12px 24px;
-        border-radius: 25px;
+        padding: 8px 16px;
+        border-radius: 20px;
         text-transform: uppercase;
         font-weight: 600;
-        font-size: var(--body-font-size-s);
+        font-size: var(--body-font-size-xs);
         letter-spacing: 0.5px;
         border: 2px solid #ff6600;
         
