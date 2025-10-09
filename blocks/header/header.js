@@ -154,26 +154,38 @@ function decorateNavSection(section) {
   const header = section.closest('header');
   const brandSection = header ? header.querySelector('.brand-section') : null;
 
-  // Move navigation links from brand section to nav section
+  // Move ALL navigation links from brand section to nav section (except the first paragraph which is the label)
   if (brandSection) {
-    const brandLinks = brandSection.querySelectorAll('a');
-    brandLinks.forEach((link) => {
-      if (link.href.includes('vending') || link.href.includes('get-started')
-          || link.href.includes('financing') || link.href.includes('why-vending')
-          || link.href.includes('support') || link.href.includes('resources')
-          || link.href.includes('about')) {
-        navLinks.appendChild(link);
-      }
-    });
+    const brandContent = brandSection.querySelector('.default-content');
+    if (brandContent) {
+      const paragraphs = brandContent.querySelectorAll('p');
+      paragraphs.forEach((p, index) => {
+        // Skip the first paragraph if it's just text (the label "Our Family of Brands:")
+        if (index === 0 && !p.querySelector('a')) {
+          return;
+        }
+        const link = p.querySelector('a');
+        if (link) {
+          navLinks.appendChild(link);
+        }
+      });
+    }
   }
 
-  // Move existing action links from this section
-  const links = navContent.querySelectorAll('a');
-  links.forEach((link) => {
-    if (link.href.includes('search') || link.href.includes('contact')) {
-      actionLinks.appendChild(link);
+  // Get action links from actions section
+  const actionsSection = header ? header.querySelector('.actions-section') : null;
+  if (actionsSection) {
+    const actionsContent = actionsSection.querySelector('.default-content');
+    if (actionsContent) {
+      const actionParagraphs = actionsContent.querySelectorAll('p');
+      actionParagraphs.forEach((p) => {
+        const link = p.querySelector('a');
+        if (link) {
+          actionLinks.appendChild(link);
+        }
+      });
     }
-  });
+  }
 
   // Clear existing content and add new structure
   navContent.innerHTML = '';
