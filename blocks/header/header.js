@@ -141,7 +141,10 @@ function decorateNavSection(section) {
   section.classList.add('main-nav-section');
   const navContent = section.querySelector('.default-content');
   
-  if (!navContent) return;
+  if (!navContent) {
+    console.error('No navContent found in main-nav-section');
+    return;
+  }
 
   // Create navigation structure
   const navLinks = document.createElement('div');
@@ -154,36 +157,49 @@ function decorateNavSection(section) {
   const header = section.closest('header');
   const brandSection = header ? header.querySelector('.brand-section') : null;
 
+  console.log('Brand section found:', brandSection);
+
   // Move ALL navigation links from brand section to nav section (except the first paragraph which is the label)
   if (brandSection) {
     const brandContent = brandSection.querySelector('.default-content');
     if (brandContent) {
       const paragraphs = brandContent.querySelectorAll('p');
+      console.log('Found paragraphs in brand section:', paragraphs.length);
       paragraphs.forEach((p, index) => {
         // Skip the first paragraph if it's just text (the label "Our Family of Brands:")
         if (index === 0 && !p.querySelector('a')) {
+          console.log('Skipping label paragraph:', p.textContent);
           return;
         }
         const link = p.querySelector('a');
         if (link) {
+          console.log('Moving link:', link.textContent, link.href);
           navLinks.appendChild(link);
         }
       });
+      // Hide the brand section after moving links
+      brandSection.style.display = 'none';
     }
   }
 
   // Get action links from actions section
   const actionsSection = header ? header.querySelector('.actions-section') : null;
+  console.log('Actions section found:', actionsSection);
+  
   if (actionsSection) {
     const actionsContent = actionsSection.querySelector('.default-content');
     if (actionsContent) {
       const actionParagraphs = actionsContent.querySelectorAll('p');
+      console.log('Found action paragraphs:', actionParagraphs.length);
       actionParagraphs.forEach((p) => {
         const link = p.querySelector('a');
         if (link) {
+          console.log('Moving action link:', link.textContent, link.href);
           actionLinks.appendChild(link);
         }
       });
+      // Hide the actions section after moving links
+      actionsSection.style.display = 'none';
     }
   }
 
@@ -191,6 +207,9 @@ function decorateNavSection(section) {
   navContent.innerHTML = '';
   navContent.appendChild(navLinks);
   navContent.appendChild(actionLinks);
+  
+  console.log('Nav links count:', navLinks.children.length);
+  console.log('Action links count:', actionLinks.children.length);
 }
 
 async function decorateActionSection(section) {
