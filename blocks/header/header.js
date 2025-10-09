@@ -197,10 +197,11 @@ async function decorateHeader(fragment) {
 
 function decorateBrandsSection(section) {
   section.classList.add('brands-section');
-  const links = section.querySelectorAll('a');
-  links.forEach((link, index) => {
-    if (index === 0) link.style.color = '#ff6600'; // Highlight first brand
-  });
+  // Keep the existing "Author Kit" content but style it
+  const link = section.querySelector('a');
+  if (link) {
+    link.style.color = '#ff6600';
+  }
 }
 
 /**
