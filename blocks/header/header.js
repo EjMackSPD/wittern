@@ -146,6 +146,8 @@ function decorateNavSection(section) {
     return;
   }
 
+  console.log('Nav section original HTML:', navContent.innerHTML.substring(0, 200));
+
   // Create navigation structure
   const navLinks = document.createElement('div');
   navLinks.className = 'nav-links';
@@ -153,54 +155,37 @@ function decorateNavSection(section) {
   const actionLinks = document.createElement('div');
   actionLinks.className = 'action-links';
 
-  // Get navigation links from the brand section (which has the main nav)
-  const header = section.closest('header');
-  const brandSection = header ? header.querySelector('.brand-section') : null;
-
-  console.log('Brand section found:', brandSection);
-
-  // Move ALL navigation links from brand section to nav section (except the first paragraph which is the label)
-  if (brandSection) {
-    const brandContent = brandSection.querySelector('.default-content');
-    if (brandContent) {
-      const paragraphs = brandContent.querySelectorAll('p');
-      console.log('Found paragraphs in brand section:', paragraphs.length);
-      paragraphs.forEach((p, index) => {
-        // Skip the first paragraph if it's just text (the label "Our Family of Brands:")
-        if (index === 0 && !p.querySelector('a')) {
-          console.log('Skipping label paragraph:', p.textContent);
-          return;
-        }
-        const link = p.querySelector('a');
-        if (link) {
-          console.log('Moving link:', link.textContent, link.href);
-          navLinks.appendChild(link);
-        }
-      });
-      // Hide the brand section after moving links
-      brandSection.style.display = 'none';
-    }
-  }
-
-  // Get action links from actions section
-  const actionsSection = header ? header.querySelector('.actions-section') : null;
-  console.log('Actions section found:', actionsSection);
+  // Get all links from THIS section's existing content
+  const existingLinks = navContent.querySelectorAll('a');
+  console.log('Found existing links in nav section:', existingLinks.length);
   
-  if (actionsSection) {
-    const actionsContent = actionsSection.querySelector('.default-content');
-    if (actionsContent) {
-      const actionParagraphs = actionsContent.querySelectorAll('p');
-      console.log('Found action paragraphs:', actionParagraphs.length);
-      actionParagraphs.forEach((p) => {
-        const link = p.querySelector('a');
-        if (link) {
-          console.log('Moving action link:', link.textContent, link.href);
-          actionLinks.appendChild(link);
+  existingLinks.forEach((link) => {
+    console.log('Processing link:', link.textContent, link.href);
+    navLinks.appendChild(link.cloneNode(true));
+  });
+
+  // Get action links from the fragment - look in all sections
+  const fragment = section.closest('.header-content');
+  if (fragment) {
+    const allSections = fragment.querySelectorAll('.section');
+    console.log('Total sections in fragment:', allSections.length);
+    
+    allSections.forEach((sect, index) => {
+      const sectContent = sect.querySelector('.default-content');
+      if (sectContent) {
+        const searchLink = sectContent.querySelector('a[href*="search"]');
+        const contactLink = sectContent.querySelector('a[href*="contact"]');
+        
+        if (searchLink) {
+          console.log('Found search link in section', index);
+          actionLinks.appendChild(searchLink.cloneNode(true));
         }
-      });
-      // Hide the actions section after moving links
-      actionsSection.style.display = 'none';
-    }
+        if (contactLink) {
+          console.log('Found contact link in section', index);
+          actionLinks.appendChild(contactLink.cloneNode(true));
+        }
+      }
+    });
   }
 
   // Clear existing content and add new structure
@@ -210,13 +195,7 @@ function decorateNavSection(section) {
   
   console.log('Nav links count:', navLinks.children.length);
   console.log('Action links count:', actionLinks.children.length);
-  console.log('navContent HTML:', navContent.innerHTML);
-  
-  // Force visibility for testing
-  section.style.visibility = 'visible';
-  section.style.opacity = '1';
-  section.style.minHeight = '64px';
-  section.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  console.log('Final navContent HTML:', navContent.innerHTML.substring(0, 300));
 }
 
 async function decorateActionSection(section) {
