@@ -165,13 +165,28 @@ function decorateNavSection(section) {
   const actionLinks = document.createElement('div');
   actionLinks.className = 'action-links';
   
-  // Move existing links to appropriate sections
+  // Get navigation links from the brand section (which has the main nav)
+  const header = section.closest('header');
+  const brandSection = header.querySelector('.brand-section');
+  
+  // Move navigation links from brand section to nav section
+  if (brandSection) {
+    const brandLinks = brandSection.querySelectorAll('a');
+    brandLinks.forEach(link => {
+      if (link.href.includes('vending') || link.href.includes('get-started') || 
+          link.href.includes('financing') || link.href.includes('why-vending') ||
+          link.href.includes('support') || link.href.includes('resources') ||
+          link.href.includes('about')) {
+        navLinks.appendChild(link);
+      }
+    });
+  }
+  
+  // Move existing action links from this section
   const links = navContent.querySelectorAll('a');
   links.forEach(link => {
     if (link.href.includes('search') || link.href.includes('contact')) {
       actionLinks.appendChild(link);
-    } else {
-      navLinks.appendChild(link);
     }
   });
   
@@ -195,9 +210,19 @@ async function decorateActionSection(section) {
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  if (sections[0]) decorateBrandSection(sections[0]);
-  if (sections[1]) decorateNavSection(sections[1]);
-  if (sections[2]) decorateActionSection(sections[2]);
+  
+  // Process brands section first (if it exists)
+  if (sections[0] && sections[0].querySelector('a[href*="Author"]')) {
+    decorateBrandsSection(sections[0]);
+    if (sections[1]) decorateBrandSection(sections[1]);
+    if (sections[2]) decorateNavSection(sections[2]);
+    if (sections[3]) decorateActionSection(sections[3]);
+  } else {
+    // Original structure: brand, nav, actions
+    if (sections[0]) decorateBrandSection(sections[0]);
+    if (sections[1]) decorateNavSection(sections[1]);
+    if (sections[2]) decorateActionSection(sections[2]);
+  }
 
   for (const pattern of HEADER_ACTIONS) {
     decorateAction(fragment, pattern);
