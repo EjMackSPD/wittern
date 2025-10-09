@@ -138,7 +138,20 @@ function decorateBrandSection(section) {
 }
 
 function decorateNavSection(section) {
+  console.log('=== decorateNavSection CALLED ===');
+  console.log('Section:', section);
+  
   section.classList.add('main-nav-section');
+  
+  // Force visibility immediately
+  section.style.display = 'block';
+  section.style.visibility = 'visible';
+  section.style.opacity = '1';
+  section.style.backgroundColor = 'red'; // Make it obvious for debugging
+  section.style.minHeight = '100px';
+  section.style.position = 'relative';
+  section.style.zIndex = '99999';
+  
   const navContent = section.querySelector('.default-content');
   
   if (!navContent) {
