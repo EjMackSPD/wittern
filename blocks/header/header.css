@@ -52,21 +52,32 @@ header {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       max-width: var(--grid-container-width);
       margin: 0 auto;
+      flex-wrap: wrap;
       
       p {
         color: #fff;
-        font-size: var(--body-font-size-s);
+        font-size: var(--body-font-size-xs);
         margin: 0;
-        font-weight: 500;
+        font-weight: 400;
+        display: inline-flex;
+        align-items: center;
+        
+        &:not(:first-child)::before {
+          content: "|";
+          margin: 0 8px;
+          color: #666;
+        }
         
         a {
           color: #ff6600;
           text-decoration: none;
+          transition: color 0.3s ease;
           
           &:hover {
-            text-decoration: underline;
+            color: #fff;
           }
         }
       }
