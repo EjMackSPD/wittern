@@ -210,6 +210,13 @@ function decorateNavSection(section) {
   
   console.log('Nav links count:', navLinks.children.length);
   console.log('Action links count:', actionLinks.children.length);
+  console.log('navContent HTML:', navContent.innerHTML);
+  
+  // Force visibility for testing
+  section.style.visibility = 'visible';
+  section.style.opacity = '1';
+  section.style.minHeight = '64px';
+  section.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
 }
 
 async function decorateActionSection(section) {
