@@ -173,17 +173,34 @@ function decorateNavSection(section) {
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
+  
+  // Style Contact Us button
+  const contactLinks = section.querySelectorAll('a');
+  contactLinks.forEach(link => {
+    if (link.textContent.toLowerCase().includes('contact')) {
+      link.classList.add('contact-btn');
+    }
+  });
 }
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  if (sections[0]) decorateBrandSection(sections[0]);
-  if (sections[1]) decorateNavSection(sections[1]);
-  if (sections[2]) decorateActionSection(sections[2]);
+  if (sections[0]) decorateBrandsSection(sections[0]);
+  if (sections[1]) decorateBrandSection(sections[1]);
+  if (sections[2]) decorateNavSection(sections[2]);
+  if (sections[3]) decorateActionSection(sections[3]);
 
   for (const pattern of HEADER_ACTIONS) {
     decorateAction(fragment, pattern);
   }
+}
+
+function decorateBrandsSection(section) {
+  section.classList.add('brands-section');
+  const links = section.querySelectorAll('a');
+  links.forEach((link, index) => {
+    if (index === 0) link.style.color = '#ff6600'; // Highlight first brand
+  });
 }
 
 /**
