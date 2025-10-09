@@ -157,18 +157,28 @@ function decorateBrandSection(section) {
 function decorateNavSection(section) {
   section.classList.add('main-nav-section');
   const navContent = section.querySelector('.default-content');
-  const navList = section.querySelector('ul');
-  if (!navList) return;
-  navList.classList.add('main-nav-list');
-
-  const nav = document.createElement('nav');
-  nav.append(navList);
-  navContent.append(nav);
-
-  const mainNavItems = section.querySelectorAll('nav > ul > li');
-  for (const navItem of mainNavItems) {
-    decorateNavItem(navItem);
-  }
+  
+  // Create navigation structure
+  const navLinks = document.createElement('div');
+  navLinks.className = 'nav-links';
+  
+  const actionLinks = document.createElement('div');
+  actionLinks.className = 'action-links';
+  
+  // Move existing links to appropriate sections
+  const links = navContent.querySelectorAll('a');
+  links.forEach(link => {
+    if (link.href.includes('search') || link.href.includes('contact')) {
+      actionLinks.appendChild(link);
+    } else {
+      navLinks.appendChild(link);
+    }
+  });
+  
+  // Clear existing content and add new structure
+  navContent.innerHTML = '';
+  navContent.appendChild(navLinks);
+  navContent.appendChild(actionLinks);
 }
 
 async function decorateActionSection(section) {
@@ -185,10 +195,9 @@ async function decorateActionSection(section) {
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  if (sections[0]) decorateBrandsSection(sections[0]);
-  if (sections[1]) decorateBrandSection(sections[1]);
-  if (sections[2]) decorateNavSection(sections[2]);
-  if (sections[3]) decorateActionSection(sections[3]);
+  if (sections[0]) decorateBrandSection(sections[0]);
+  if (sections[1]) decorateNavSection(sections[1]);
+  if (sections[2]) decorateActionSection(sections[2]);
 
   for (const pattern of HEADER_ACTIONS) {
     decorateAction(fragment, pattern);

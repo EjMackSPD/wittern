@@ -5,18 +5,12 @@ header {
 
   display: block;
   position: fixed;
-  top: 16px;
-  left: 16px;
-  right: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   overflow: hidden;
   max-height: calc(var(--header-height) + 40px);
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
   ul {
     margin: 0;
@@ -50,8 +44,8 @@ header {
 
   .brands-section {
     grid-area: brands;
-    background-color: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #000;
+    border-bottom: 1px solid #333;
     
     .default-content {
       height: 40px;
@@ -160,40 +154,8 @@ header {
   .brand-section {
     grid-area: brand;
     background-color: transparent;
-
-    .default-content {
-      height: var(--header-height);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: var(--grid-container-width);
-      margin: 0 auto;
-      padding: 0 16px;
-
-      ul {
-        display: flex;
-        gap: 24px;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      li {
-        margin: 0;
-      }
-
-      a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: var(--body-font-size-m);
-        transition: color 0.3s ease;
-        
-        &:hover {
-          color: #ff6600;
-        }
-      }
-    }
+    display: none; /* Hide brand section since we're using main-nav for navigation */
+  }
 
     .action-wrapper {
       right: -23px; /* 64 minus waffle icon inset */
@@ -255,23 +217,56 @@ header {
     grid-area: nav;
     overflow: hidden;
     background-color: transparent;
-    display: none; /* Hide on mobile since we're using the brand section for nav */
+    display: block;
+    margin: 16px;
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
     .default-content {
       max-width: var(--grid-container-width);
       margin: 0 auto;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       gap: 16px;
       height: var(--header-height);
-      padding: 0 16px;
+      padding: 0 24px;
     }
 
     p {
       margin: 0;
     }
 
+    /* Navigation links */
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      
+      a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: var(--body-font-size-m);
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: #ff6600;
+        }
+      }
+    }
+    
+    /* Action links */
+    .action-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
     a {
       color: #fff;
       text-decoration: none;
