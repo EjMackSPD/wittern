@@ -67,10 +67,7 @@ function decorateScheme(btn) {
         : 'light-scheme';
     }
 
-    const theme =
-      currPref === 'dark-scheme'
-        ? { add: 'light-scheme', remove: 'dark-scheme' }
-        : { add: 'dark-scheme', remove: 'light-scheme' };
+    const theme = currPref === 'dark-scheme' ? { add: 'light-scheme', remove: 'dark-scheme' } : { add: 'dark-scheme', remove: 'light-scheme' };
 
     body.classList.remove(theme.remove);
     body.classList.add(theme.add);
@@ -151,8 +148,7 @@ function decorateNavSection(section) {
   // Create logo area (left 25%)
   const logoArea = document.createElement('div');
   logoArea.className = 'logo-area';
-  logoArea.style.cssText =
-    'display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 16px;';
+  logoArea.style.cssText = 'display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 16px;';
 
   // Create navigation area (right 75% with glass background)
   const navArea = document.createElement('div');
@@ -173,10 +169,10 @@ function decorateNavSection(section) {
       logoElement.style.cssText = 'width: 250px; height: auto; flex-shrink: 0;';
       const img = logoElement.querySelector('img');
       if (img) {
-        img.style.cssText = 'width: 80px; height: auto;';
+        img.style.cssText = 'width: 250px; height: auto;';
       }
     } else {
-      logoElement.style.cssText = 'width: 80px; height: auto; flex-shrink: 0;';
+      logoElement.style.cssText = 'width: 250px; height: auto; flex-shrink: 0;';
     }
     logoArea.appendChild(logoElement);
   }
@@ -221,8 +217,6 @@ function decorateNavSection(section) {
       <rect y="21" width="30" height="3" fill="white" rx="1.5"/>
     </svg>
   `;
-  mobileMenuBtn.style.cssText =
-    'display: flex !important; justify-content: center; align-items: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); cursor: pointer; padding: 10px; width: 50px; height: 50px; border-radius: 8px; margin-left: auto; flex-shrink: 0; position: relative; z-index: 10000;';
   mobileMenuBtn.setAttribute('aria-label', 'Toggle mobile menu');
   mobileMenuBtn.setAttribute('aria-expanded', 'false');
 
@@ -267,49 +261,10 @@ function decorateNavSection(section) {
   navContent.innerHTML = '';
   navContent.appendChild(logoArea);
   navContent.appendChild(navArea);
-
-  // Debug logging
-  console.log('Mobile menu button created:', mobileMenuBtn);
-  console.log('Button HTML:', mobileMenuBtn.outerHTML);
-  console.log('Logo area:', logoArea);
-  console.log('Logo element:', logoElement);
-  console.log(
-    'Window width:',
-    window.innerWidth,
-    'Mobile?',
-    window.innerWidth <= 1024,
-  );
-
-  // Force the button to be visible with a timeout
-  setTimeout(() => {
-    const btn = document.querySelector('.mobile-menu-btn');
-    console.log('Button in DOM after timeout:', btn ? 'YES' : 'NO');
-    if (btn) {
-      const styles = window.getComputedStyle(btn);
-      console.log(
-        'Button display:',
-        styles.display,
-        'visibility:',
-        styles.visibility,
-      );
-      console.log('Button position:', btn.getBoundingClientRect());
-      const svg = btn.querySelector('svg');
-      console.log('SVG found:', svg ? 'YES' : 'NO');
-    } else {
-      console.error('BUTTON NOT IN DOM!');
-    }
-
-    const pic = document.querySelector('.logo-area picture');
-    const img = document.querySelector('.logo-area img');
-    if (pic) console.log('Picture width:', window.getComputedStyle(pic).width);
-    if (img) console.log('Img width:', window.getComputedStyle(img).width);
-  }, 200);
 }
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
-
-  // Style Contact Us button
   const contactLinks = section.querySelectorAll('a');
   contactLinks.forEach((link) => {
     if (link.textContent.toLowerCase().includes('contact')) {
@@ -330,11 +285,6 @@ function decorateBrandsSection(section) {
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-
-  // Based on the actual HTML structure:
-  // Section 0: brand-section (has "Our Family of Brands")
-  // Section 1: main-nav-section (has the navigation links)
-  // Section 2: actions-section (has search and contact links)
 
   if (sections[0]) {
     decorateBrandsSection(sections[0]);
