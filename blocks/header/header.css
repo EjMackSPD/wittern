@@ -297,27 +297,27 @@ header {
         align-items: center;
       }
 
-      /* Logo area takes full width on mobile */
-      .logo-area {
-        width: 100% !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        padding: 0 16px !important;
+       /* Logo area takes full width on mobile */
+       .logo-area {
+         width: 100% !important;
+         display: flex !important;
+         justify-content: space-between !important;
+         align-items: center !important;
+         padding: 0 16px !important;
 
-        img,
-        svg {
-          width: 80px !important;
-          height: auto !important;
-          max-height: 50px !important;
-          flex-shrink: 0;
-        }
+         img,
+         svg {
+           width: 140px !important;
+           height: auto !important;
+           max-height: 60px !important;
+           flex-shrink: 0;
+         }
 
-        picture {
-          width: 80px;
-          flex-shrink: 0;
-        }
-      }
+         picture {
+           width: 140px;
+           flex-shrink: 0;
+         }
+       }
 
       /* Show mobile menu button on mobile/tablet */
       .logo-area .mobile-menu-btn {
