@@ -33,9 +33,14 @@
     color: var(--color-light);
   }
 
-  /* Center variant - centered text, smaller height */
+  /* Center variant - centered text, smaller height, no left overlay */
   &.center {
     --min-height: 60vh;
+
+    /* Remove left dark overlay for center variant */
+    &.dark-overlay::before {
+      display: none;
+    }
 
     .hero-foreground {
       text-align: center;
@@ -44,16 +49,22 @@
       > div {
         max-width: 800px;
         margin: 0 auto;
+        padding: 2rem;
       }
     }
 
     .button-wrapper {
       justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* Remove left dark overlay for center variant */
-    &.dark-overlay::before {
-      display: none;
+    .hero-heading {
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
     }
   }
 
