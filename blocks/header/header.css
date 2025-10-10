@@ -38,15 +38,29 @@ header {
     background-color: #000;
     border-bottom: 1px solid #333;
     width: 100%;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #f60;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      z-index: 1;
+    }
 
     .default-content {
-      min-height: 40px;
+      min-height: 34px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       max-width: var(--grid-container-width);
       margin: 0 auto;
-      padding: 8px var(--spacing-l);
+      padding: 2px var(--spacing-l);
       flex-wrap: wrap;
       gap: 4px;
 
@@ -59,8 +73,11 @@ header {
         line-height: 1.2;
 
         &:not(:first-child)::before {
-          content: " ";
-          margin-right: 4px;
+          content: "•";
+          margin-right: 8px;
+          margin-left: 8px;
+          color: #fff;
+          font-weight: bold;
         }
 
         a {
@@ -77,8 +94,8 @@ header {
           {
             text-decoration: underline;
             text-decoration-color: #f60;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 3px;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 9px;
           }
         }
       }
@@ -260,11 +277,11 @@ header {
   .main-nav-section {
     position: sticky;
     top: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
-    height: var(--header-height);
-    margin: 16px 0;
+    margin: 50px 0;
+    padding: 8px 48px;
     z-index: 1000;
 
     .default-content {
@@ -302,11 +319,10 @@ header {
       border: 1px solid rgb(255 255 255 / 15%);
       box-shadow: 0 8px 32px rgb(0 0 0 / 20%);
       border-radius: 24px;
-      height: var(--header-height);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 32px;
     }
 
     p {
@@ -370,7 +386,7 @@ header {
 
           &::before {
             content: "⌕";
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 400;
             color: #fff;
           }
@@ -446,7 +462,7 @@ header {
 
       /* More spacing on desktop */
       .nav-area .nav-links {
-        gap: 40px;
+        gap: 30px;
       }
     }
 

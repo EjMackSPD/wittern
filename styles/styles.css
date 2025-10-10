@@ -161,7 +161,7 @@
   --body-line-height: 1.6;
 
   /* misc */
-  --header-height: 64px;
+  --header-height: 34px;
   --breadcrumb-height: 24px;
 }
 
@@ -326,17 +326,33 @@ a {
   padding: var(--spacing-xl) var(--spacing-l);
 
   > .default-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-l);
+  }
+
+  > .block-content {
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 var(--spacing-l);
   }
 
   /* Hero section should be full width with no padding */
   &.hero {
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
 
     > .default-content {
-      max-width: none;
+      max-width: none !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    > .block-content {
+      max-width: none !important;
       margin: 0;
       padding: 0;
     }
@@ -363,6 +379,7 @@ main {
   position: relative;
   z-index: 1;
   padding: 0;
+  max-width: none;
 
   ul,
   ol {

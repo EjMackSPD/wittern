@@ -1,35 +1,83 @@
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--spacing-xl, 2rem);
   padding: var(--spacing-xl) 0;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .columns .column {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-l);
-  background: var(--color-surface);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  padding: 32px;
+  background: rgb(255 255 255 / 95%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  border: 1px solid rgb(255 255 255 / 20%);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 8%);
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 10%);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgb(0 0 0 / 15%);
+    border-color: rgb(255 102 0 / 30%);
   }
 
   h2,
   h3 {
     color: var(--color-brand);
     margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h4,
+  h5,
+  h6 {
+    color: var(--color-dark);
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+    margin-bottom: 16px;
   }
 
   a {
     color: var(--color-brand);
     font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 25px;
+    background: rgb(255 102 0 / 10%);
+    border: 2px solid transparent;
 
     &:hover {
-      color: var(--color-brand-dark);
+      color: #fff;
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgb(255 102 0 / 30%);
+    }
+
+    &::after {
+      content: "→";
+      transition: transform 0.3s ease;
+      font-weight: bold;
+    }
+
+    &:hover::after {
+      transform: translateX(4px);
     }
   }
 }
