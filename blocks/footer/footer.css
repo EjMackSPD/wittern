@@ -1,11 +1,20 @@
 footer {
+  color: #fff;
+
   a {
     text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #f60;
+    }
   }
 
   .footer-content {
     max-width: var(--grid-container-width);
     margin: 48px auto;
+    padding: 0 var(--spacing-l);
     font-size: 14px;
   }
 
