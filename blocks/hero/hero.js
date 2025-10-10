@@ -1,23 +1,30 @@
 function decorateBackground(hero, bg) {
   const bgPic = bg.querySelector('picture');
-  if (!bgPic) return;
+  if (!bgPic) {
+    // No picture found, just return without error
+    return;
+  }
+  
   const bgImgLink = bgPic.closest('a');
   if (bgImgLink) {
     const { href } = bgImgLink;
-    if (!href.includes('.mp4')) return;
-    const video = document.createElement('video');
-    video.setAttribute('muted', true);
-    video.setAttribute('autoplay', true);
-    video.setAttribute('playsinline', true);
-    video.setAttribute('loop', true);
-    video.setAttribute('src', href);
-    video.addEventListener('play', () => {
-      bgPic.remove();
-    });
+    // Only process if it's a video link
+    if (href.includes('.mp4')) {
+      const video = document.createElement('video');
+      video.setAttribute('muted', true);
+      video.setAttribute('autoplay', true);
+      video.setAttribute('playsinline', true);
+      video.setAttribute('loop', true);
+      video.setAttribute('src', href);
+      video.addEventListener('play', () => {
+        bgPic.remove();
+      });
 
-    bgImgLink.parentElement.append(video, bgPic);
-    bgImgLink.remove();
+      bgImgLink.parentElement.append(video, bgPic);
+      bgImgLink.remove();
+    }
   }
+  // If it's just an image (not wrapped in a link or not a video), it will display normally
 }
 
 function decorateForeground(fg) {
