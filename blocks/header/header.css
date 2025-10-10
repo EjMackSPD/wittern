@@ -195,7 +195,6 @@ header .main-nav-section {
       height: 48px;
       border-radius: 8px;
       transition: background-color 0.3s ease;
-      margin-right: 8px;
       position: relative;
       z-index: 10000;
 
@@ -347,7 +346,7 @@ header .main-nav-section {
       display: flex !important;
       justify-content: space-between !important;
       align-items: center !important;
-      padding: 0 16px !important;
+      padding: 0 0 !important;
 
       /* Larger logo on mobile */
       img

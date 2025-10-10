@@ -381,7 +381,7 @@ main {
   padding: 0;
 
   @media (max-width: 1024px) {
-    padding-top: 130px;
+    padding-top: 80px;
   }
   max-width: none;
 
