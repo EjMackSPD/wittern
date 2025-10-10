@@ -79,6 +79,21 @@ header .brands-section {
     z-index: 9998;
   }
 
+  /* Fade gradient on right to indicate scrollable content */
+  @media (max-width: 1280px) {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 100%;
+      background: linear-gradient(to left, #000, transparent);
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+
   .default-content {
     min-height: 34px;
     display: flex;
@@ -618,7 +633,7 @@ header .actions-section {
 
     &:hover {
       background-color: #e55a00;
-    }
+      }
     }
 
     &.is-open {
