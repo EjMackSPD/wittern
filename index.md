@@ -80,7 +80,7 @@ IoT-enabled machines with mobile apps, data analytics, and predictive maintenanc
 
 ---
 
-## Hero
+## Hero (center, dark-overlay, large)
 
 ![Support Background](/img/support-hero.jpg)
 
