@@ -33,6 +33,30 @@
     color: var(--color-light);
   }
 
+  /* Center variant - centered text, smaller height */
+  &.center {
+    --min-height: 60vh;
+
+    .hero-foreground {
+      text-align: center;
+      justify-content: center;
+
+      > div {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    }
+
+    .button-wrapper {
+      justify-content: center;
+    }
+
+    /* Remove left dark overlay for center variant */
+    &.dark-overlay::before {
+      display: none;
+    }
+  }
+
   /* Dark overlay for better text readability */
   &.dark-overlay .hero-background::after {
     content: "";
