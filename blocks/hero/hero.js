@@ -1,5 +1,6 @@
 function decorateBackground(hero, bg) {
   const bgPic = bg.querySelector('picture');
+  if (!bgPic) return;
   const bgImgLink = bgPic.closest('a');
   if (bgImgLink) {
     const { href } = bgImgLink;
