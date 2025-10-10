@@ -178,7 +178,7 @@ header .main-nav-section {
   /* Mobile: Fixed below brands bar */
   @media (max-width: 1024px) {
     position: fixed;
-    top: 40px;
+    top: 54px;
     left: 0;
     right: 0;
     width: 100%;
@@ -469,7 +469,7 @@ header .main-nav-section {
 
       /* More spacing between nav links on desktop */
       .nav-area .nav-links {
-        gap: 30px;
+        gap: 28px;
       }
     }
   }

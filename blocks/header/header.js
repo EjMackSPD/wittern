@@ -148,7 +148,7 @@ function decorateNavSection(section) {
   // Create logo area (left 25%)
   const logoArea = document.createElement('div');
   logoArea.className = 'logo-area';
-  logoArea.style.cssText = 'display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 16px;';
+  logoArea.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 0 16px;';
 
   // Create navigation area (right 75% with glass background)
   const navArea = document.createElement('div');
