@@ -177,10 +177,40 @@ function decorateNavSection(section) {
     logoArea.appendChild(logoElement);
   }
 
-  // Get all links from THIS section's existing content (excluding logo)
-  const existingLinks = navContent.querySelectorAll('a');
+  // Get only the top-level navigation links (exclude sub-navigation items)
+  const linkSelectors = [
+    ':scope > a',
+    ':scope > p > a',
+    ':scope > div > a',
+    ':scope > span > a',
+    ':scope > strong > a',
+    ':scope > em > a',
+  ];
 
-  existingLinks.forEach((link) => {
+  const findDirectLink = (container) => {
+    if (container.matches('a')) return container;
+    for (const selector of linkSelectors) {
+      const direct = container.querySelector(selector);
+      if (direct) return direct;
+    }
+    return null;
+  };
+
+  const topLevelLinks = [];
+
+  [...navContent.children].forEach((child) => {
+    if (child.matches('ul, ol')) {
+      child.querySelectorAll(':scope > li').forEach((item) => {
+        const link = findDirectLink(item);
+        if (link) topLevelLinks.push(link);
+      });
+    } else {
+      const link = findDirectLink(child);
+      if (link) topLevelLinks.push(link);
+    }
+  });
+
+  topLevelLinks.forEach((link) => {
     navLinks.appendChild(link.cloneNode(true));
   });
 
