@@ -195,7 +195,6 @@ header .main-nav-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: var(--header-height);
     position: relative;
   }
 
@@ -271,18 +270,19 @@ header .main-nav-section {
     background-color: rgb(0 0 0 / 40%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgb(255 255 255 / 15%);
-    box-shadow: 0 8px 32px rgb(0 0 0 / 20%);
-    border-radius: 24px;
+    border: 1px solid rgba(83, 83, 83, 0.15);
+    box-shadow: 0 2px 2rem rgb(0 0 0 / 20%);
+    border-radius: 36px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 32px;
+    padding: 0 1rem;
+    padding-left: 2rem;
 
     /* Navigation Links */
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 2rem;
       align-items: center;
 
       a {
@@ -291,9 +291,176 @@ header .main-nav-section {
         font-weight: 500;
         font-size: 12px;
         transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 4px;
 
         &:hover {
           color: #f60;
+        }
+      }
+
+      /* Navigation Item Container */
+      .nav-item-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        /* Dropdown Indicator */
+        .nav-dropdown-indicator {
+          font-size: 10px;
+          color: #fff;
+          transition: all 0.3s ease;
+          margin-left: 4px;
+          transform: rotate(0deg);
+          display: inline-block;
+        }
+
+        /* Sub Navigation Menu */
+        .sub-nav-menu {
+          position: absolute;
+          top: 2rem;
+          left: -15rem;
+          background-color: transparent;
+          padding: 24px;
+          width: calc(90vw - 20px);
+          max-width: calc(75vw - 20px);
+          min-height: fit-content;
+          height: fit-content;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          z-index: 1000;
+          margin-top: 16px;
+          background: white;
+          border-radius: .5rem;
+
+          &.is-open {
+            opacity: 1;
+            visibility: visible;
+          }
+
+          /* Fragment Content Container */
+          .fragment-content {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+            grid-auto-rows: min-content !important;
+            gap: 20px !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            height: fit-content !important;
+            min-height: fit-content !important;
+            max-height: none !important;
+          }
+
+          /* Section Cards */
+          .section {
+            background-color: #fff !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.3s ease !important;
+            height: fit-content !important;
+            min-height: fit-content !important;
+            max-height: none !important;
+            align-self: start !important;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .default-content {
+              margin: 0;
+              padding: 0;
+              display: flex;
+              flex-direction: column;
+
+              /* Category Title */
+              p {
+                margin: 0 0 16px 0;
+                font-size: 16px;
+                font-weight: 700;
+                color: #333;
+                border-bottom: 2px solid #f60;
+                padding-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+
+                &::after {
+                  content: '>>';
+                  font-size: 12px;
+                  color: #f60;
+                  font-weight: 400;
+                }
+              }
+
+              /* Sub Items List */
+              ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+
+                li {
+                  margin: 0 0 8px 0;
+                  padding: 0;
+                  width: 100%;
+
+                  color: #666;
+                  text-decoration: none;
+                  font-size: 14px;
+
+                  a {
+                    color: #666;
+                    text-decoration: none;
+                    font-size: 14px;
+                    font-weight: 400;
+                    display: block;
+                    padding: 6px 0;
+                    transition: all 0.2s ease;
+                    border-radius: 4px;
+                    width: 100%;
+
+                    &:hover {
+                      color: #f60;
+                      background-color: #fff5f0;
+                      padding-left: 8px;
+                    }
+                  }
+                }
+              }
+
+              /* Empty sections with just titles */
+              p:not(:first-child) {
+                margin: 8px 0;
+                font-size: 14px;
+                font-weight: 400;
+                color: #666;
+                border-bottom: none;
+                padding: 0;
+
+                &::after {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+
+        /* Hover state for parent link */
+        &:hover {
+          a {
+            color: #f60;
+          }
+
+          .nav-dropdown-indicator {
+            color: #f60;
+            transform: rotate(90deg);
+          }
         }
       }
     }
@@ -435,6 +602,99 @@ header .main-nav-section {
           border-bottom: 1px solid rgb(255 255 255 / 10%);
           width: 100%;
           text-align: left;
+        }
+
+        /* Mobile Navigation Item Container */
+        .nav-item-container {
+          width: 100%;
+
+          /* Mobile Sub Navigation Menu */
+          .sub-nav-menu {
+            position: static;
+            background-color: transparent;
+            box-shadow: none;
+            padding: 0;
+            margin-top: 8px;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            min-width: auto;
+            height: fit-content;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+
+            &.is-open {
+              max-height: none;
+              height: fit-content;
+            }
+
+            /* Mobile Fragment Content */
+            .fragment-content {
+              display: block;
+              gap: 0;
+            }
+
+            /* Mobile Section Cards */
+            .section {
+              background-color: transparent;
+              border-radius: 0;
+              padding: 12px 0;
+              box-shadow: none;
+              border: none;
+              border-bottom: 1px solid rgb(255 255 255 / 10%);
+
+              &:hover {
+                transform: none;
+                box-shadow: none;
+              }
+
+              .default-content {
+                /* Mobile Category Title */
+                p {
+                  color: #fff;
+                  font-size: 14px;
+                  font-weight: 600;
+                  border-bottom: 1px solid rgb(255 255 255 / 20%);
+                  padding-bottom: 6px;
+                  margin-bottom: 8px;
+
+                  &::after {
+                    content: '>>';
+                    font-size: 10px;
+                    color: #f60;
+                    margin-left: 4px;
+                  }
+                }
+
+                /* Mobile Sub Items List */
+                ul {
+                  li {
+                    margin: 0 0 4px 0;
+
+                    a {
+                      color: #ccc;
+                      font-size: 13px;
+                      padding: 4px 0 4px 16px;
+                      border-radius: 0;
+
+                      &:hover {
+                        color: #f60;
+                        background-color: transparent;
+                        padding-left: 20px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          /* Mobile dropdown indicator */
+          .nav-dropdown-indicator {
+            font-size: 12px;
+            margin-left: 8px;
+          }
         }
       }
 

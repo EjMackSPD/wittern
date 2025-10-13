@@ -13,14 +13,18 @@ const HEADER_ACTIONS = [
 
 function closeAllMenus() {
   const openMenus = document.body.querySelectorAll('header .is-open');
-  for (const openMenu of openMenus) {
-    openMenu.classList.remove('is-open');
-  }
+  openMenus.forEach((m) => m.classList.remove('is-open'));
+}
+
+function closeAllSubMenus() {
+  const openSubMenus = document.body.querySelectorAll('.sub-nav-menu.is-open');
+  openSubMenus.forEach((m) => m.classList.remove('is-open'));
 }
 
 function docClose(e) {
   if (e.target.closest('header')) return;
   closeAllMenus();
+  closeAllSubMenus();
 }
 
 function toggleMenu(menu) {
@@ -30,8 +34,6 @@ function toggleMenu(menu) {
     document.removeEventListener('click', docClose);
     return;
   }
-
-  // Setup the global close event
   document.addEventListener('click', docClose);
   menu.classList.add('is-open');
 }
@@ -43,9 +45,7 @@ function decorateLanguage(btn) {
     if (!menu) {
       const content = document.createElement('div');
       content.classList.add('block-content');
-      const fragment = await loadFragment(
-        `${locale.prefix}${HEADER_PATH}/languages`,
-      );
+      const fragment = await loadFragment(`${locale.prefix}${HEADER_PATH}/languages`);
       menu = document.createElement('div');
       menu.className = 'language menu';
       menu.append(fragment);
@@ -59,24 +59,20 @@ function decorateLanguage(btn) {
 function decorateScheme(btn) {
   btn.addEventListener('click', async () => {
     const { body } = document;
-
     let currPref = localStorage.getItem('color-scheme');
     if (!currPref) {
-      currPref = matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark-scheme'
-        : 'light-scheme';
+      currPref = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-scheme' : 'light-scheme';
     }
-
-    const theme = currPref === 'dark-scheme' ? { add: 'light-scheme', remove: 'dark-scheme' } : { add: 'dark-scheme', remove: 'light-scheme' };
+    const theme = currPref === 'dark-scheme'
+      ? { add: 'light-scheme', remove: 'dark-scheme' }
+      : { add: 'dark-scheme', remove: 'light-scheme' };
 
     body.classList.remove(theme.remove);
     body.classList.add(theme.add);
     localStorage.setItem('color-scheme', theme.add);
-    // Re-calculatie section schemes
+
     const sections = document.querySelectorAll('.section');
-    for (const section of sections) {
-      setColorScheme(section);
-    }
+    sections.forEach((s) => setColorScheme(s));
   });
 }
 
@@ -101,11 +97,9 @@ async function decorateAction(header, pattern) {
     textSpan.textContent = text;
     btn.append(textSpan);
   }
+
   const wrapper = document.createElement('div');
-  wrapper.className = `action-wrapper ${icon.classList[1].replace(
-    'icon-',
-    '',
-  )}`;
+  wrapper.className = `action-wrapper ${icon?.classList[1]?.replace('icon-', '') || ''}`;
   wrapper.append(btn);
   link.parentElement.parentElement.replaceChild(wrapper, link.parentElement);
 
@@ -114,16 +108,66 @@ async function decorateAction(header, pattern) {
   if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
 }
 
-// eslint-disable-next-line no-unused-vars
-function decorateMenu(li) {
-  return null;
+// DYNAMIC SUB NAVIGATION
+async function decorateNavItem(link) {
+  const liContainer = document.createElement('div');
+  liContainer.className = 'nav-item-container';
+  liContainer.append(link);
+
+  const label = link.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+  const subNavPath = `${locale.prefix}${HEADER_PATH}/${label}`;
+
+  try {
+    const fragment = await loadFragment(subNavPath);
+    if (fragment) {
+      // Add dropdown indicator to the link
+      const indicator = document.createElement('span');
+      indicator.className = 'nav-dropdown-indicator';
+      indicator.innerHTML = '>';
+      link.appendChild(indicator);
+
+      const subNavMenu = document.createElement('div');
+      subNavMenu.className = 'sub-nav-menu';
+      
+      // Clone the fragment to avoid affecting the original
+      const fragmentClone = fragment.cloneNode(true);
+      
+      // Add a class to prevent sub-nav links from being processed by main nav
+      const subNavLinks = fragmentClone.querySelectorAll('a');
+      subNavLinks.forEach(subLink => {
+        subLink.classList.add('sub-nav-link');
+      });
+      
+      subNavMenu.append(fragmentClone);
+      liContainer.append(subNavMenu);
+
+      // hover behavior
+      liContainer.addEventListener('mouseenter', () => {
+        subNavMenu.classList.add('is-open');
+      });
+      liContainer.addEventListener('mouseleave', () => {
+        subNavMenu.classList.remove('is-open');
+      });
+
+      // mobile behavior
+      link.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1280) {
+          e.preventDefault();
+          subNavMenu.classList.toggle('is-open');
+          const others = document.querySelectorAll('.sub-nav-menu.is-open');
+          others.forEach((menu) => {
+            if (menu !== subNavMenu) menu.classList.remove('is-open');
+          });
+        }
+      });
+    }
+  } catch {
+    // no sub-nav fragment found; just render the link
+  }
+
+  return liContainer;
 }
 
-// Removed unused decorateMegaMenu function
-
-// Removed unused decorateNavItem function
-
-// eslint-disable-next-line no-unused-vars
 function decorateBrandSection(section) {
   section.classList.add('brand-section');
   const brandLink = section.querySelector('a');
@@ -136,78 +180,54 @@ function decorateBrandSection(section) {
   }
 }
 
-function decorateNavSection(section) {
+async function decorateNavSection(section) {
   section.classList.add('main-nav-section');
-
   const navContent = section.querySelector('.default-content');
+  if (!navContent) return;
 
-  if (!navContent) {
-    return;
-  }
-
-  // Create logo area (left 25%)
   const logoArea = document.createElement('div');
   logoArea.className = 'logo-area';
-  logoArea.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 0 16px;';
+  logoArea.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0 16px;';
 
-  // Create navigation area (right 75% with glass background)
   const navArea = document.createElement('div');
   navArea.className = 'nav-area';
 
-  // Create navigation structure within nav area
   const navLinks = document.createElement('div');
   navLinks.className = 'nav-links';
 
   const actionLinks = document.createElement('div');
   actionLinks.className = 'action-links';
 
-  // Find and move logo to logo area
   const logoElement = navContent.querySelector('picture, img');
   if (logoElement) {
-    // Force logo size with inline styles
-    if (logoElement.tagName === 'PICTURE') {
-      logoElement.style.cssText = 'width: 250px; height: auto; flex-shrink: 0;';
-      const img = logoElement.querySelector('img');
-      if (img) {
-        img.style.cssText = 'width: 250px; height: auto;';
-      }
-    } else {
-      logoElement.style.cssText = 'width: 250px; height: auto; flex-shrink: 0;';
-    }
+    logoElement.style.cssText = 'width:250px;height:auto;flex-shrink:0;';
     logoArea.appendChild(logoElement);
   }
 
-  // Get all links from THIS section's existing content (excluding logo)
-  const existingLinks = navContent.querySelectorAll('a');
+  const existingLinks = navContent.querySelectorAll('a:not(.sub-nav-link)');
+  for (const link of existingLinks) {
+    const decorated = await decorateNavItem(link.cloneNode(true));
+    navLinks.append(decorated);
+  }
 
-  existingLinks.forEach((link) => {
-    navLinks.appendChild(link.cloneNode(true));
-  });
-
-  // Get action links from the fragment - look in all sections
   const fragment = section.closest('.header-content');
   if (fragment) {
     const allSections = fragment.querySelectorAll('.section');
-
     allSections.forEach((sect) => {
       const sectContent = sect.querySelector('.default-content');
       if (sectContent) {
         const searchLink = sectContent.querySelector('a[href*="search"]');
         const contactLink = sectContent.querySelector('a[href*="contact"]');
-
-        if (searchLink) {
-          actionLinks.appendChild(searchLink.cloneNode(true));
-        }
+        if (searchLink) actionLinks.append(searchLink.cloneNode(true));
         if (contactLink) {
-          const clonedContact = contactLink.cloneNode(true);
-          clonedContact.classList.add('contact-btn');
-          actionLinks.appendChild(clonedContact);
+          const cloned = contactLink.cloneNode(true);
+          cloned.classList.add('contact-btn');
+          actionLinks.append(cloned);
         }
       }
     });
   }
 
-  // Create mobile hamburger button with SVG icon (guaranteed to show)
   const mobileMenuBtn = document.createElement('button');
   mobileMenuBtn.className = 'mobile-menu-btn';
   mobileMenuBtn.innerHTML = `
@@ -220,7 +240,6 @@ function decorateNavSection(section) {
   mobileMenuBtn.setAttribute('aria-label', 'Toggle mobile menu');
   mobileMenuBtn.setAttribute('aria-expanded', 'false');
 
-  // Add mobile menu functionality
   mobileMenuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const isOpen = navArea.classList.contains('mobile-open');
@@ -229,19 +248,14 @@ function decorateNavSection(section) {
     document.body.classList.toggle('mobile-menu-open', !isOpen);
   });
 
-  // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
-    if (
-      !section.contains(e.target)
-      && navArea.classList.contains('mobile-open')
-    ) {
+    if (!section.contains(e.target) && navArea.classList.contains('mobile-open')) {
       navArea.classList.remove('mobile-open');
       mobileMenuBtn.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('mobile-menu-open');
     }
   });
 
-  // Close mobile menu when pressing Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navArea.classList.contains('mobile-open')) {
       navArea.classList.remove('mobile-open');
@@ -250,63 +264,30 @@ function decorateNavSection(section) {
     }
   });
 
-  // Add nav links and action links to nav area
-  navArea.appendChild(navLinks);
-  navArea.appendChild(actionLinks);
-
-  // Add mobile menu button to logo area on mobile
+  navArea.append(navLinks, actionLinks);
   logoArea.appendChild(mobileMenuBtn);
 
-  // Clear existing content and add new structure
   navContent.innerHTML = '';
-  navContent.appendChild(logoArea);
-  navContent.appendChild(navArea);
+  navContent.append(logoArea, navArea);
 }
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
-  const contactLinks = section.querySelectorAll('a');
-  contactLinks.forEach((link) => {
-    if (link.textContent.toLowerCase().includes('contact')) {
-      link.classList.add('contact-btn');
-    }
+  const links = section.querySelectorAll('a');
+  links.forEach((l) => {
+    if (l.textContent.toLowerCase().includes('contact')) l.classList.add('contact-btn');
   });
-}
-
-// eslint-disable-next-line no-unused-vars
-function decorateBrandsSection(section) {
-  section.classList.add('brands-section');
-  // Keep the existing "Author Kit" content but style it
-  const link = section.querySelector('a');
-  if (link) {
-    link.style.color = '#ff6600';
-  }
 }
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
+  if (sections[0]) decorateBrandSection(sections[0]);
+  if (sections[1]) await decorateNavSection(sections[1]);
+  if (sections[2]) await decorateActionSection(sections[2]);
 
-  if (sections[0]) {
-    decorateBrandsSection(sections[0]);
-  }
-
-  if (sections[1]) {
-    decorateNavSection(sections[1]);
-  }
-
-  if (sections[2]) {
-    decorateActionSection(sections[2]);
-  }
-
-  for (const pattern of HEADER_ACTIONS) {
-    decorateAction(fragment, pattern);
-  }
+  for (const pattern of HEADER_ACTIONS) decorateAction(fragment, pattern);
 }
 
-/**
- * loads and decorates the header
- * @param {Element} el The header element
- */
 export default async function init(el) {
   const headerMeta = getMetadata('header');
   const path = headerMeta || HEADER_PATH;
