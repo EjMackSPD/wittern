@@ -17,7 +17,7 @@ module.exports = {
     'import/no-unresolved': 0,
     'import/prefer-default-export': 0,
     'import/no-cycle': 0,
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'windows'],
     'no-await-in-loop': 0,
     'no-unused-expressions': 0,
     'chai-friendly/no-unused-expressions': 2,

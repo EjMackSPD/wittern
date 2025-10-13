@@ -1,112 +1,9 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
 
 const HEADER_PATH = '/fragments/nav/header';
-const HEADER_ACTIONS = [
-  '/tools/widgets/scheme',
-  '/tools/widgets/language',
-  '/tools/widgets/toggle',
-];
-
-function closeAllMenus() {
-  const openMenus = document.body.querySelectorAll('header .is-open');
-  openMenus.forEach((m) => m.classList.remove('is-open'));
-}
-
-function closeAllSubMenus() {
-  const openSubMenus = document.body.querySelectorAll('.sub-nav-menu.is-open');
-  openSubMenus.forEach((m) => m.classList.remove('is-open'));
-}
-
-function docClose(e) {
-  if (e.target.closest('header')) return;
-  closeAllMenus();
-  closeAllSubMenus();
-}
-
-function toggleMenu(menu) {
-  const isOpen = menu.classList.contains('is-open');
-  closeAllMenus();
-  if (isOpen) {
-    document.removeEventListener('click', docClose);
-    return;
-  }
-  document.addEventListener('click', docClose);
-  menu.classList.add('is-open');
-}
-
-function decorateLanguage(btn) {
-  const section = btn.closest('.section');
-  btn.addEventListener('click', async () => {
-    let menu = section.querySelector('.language.menu');
-    if (!menu) {
-      const content = document.createElement('div');
-      content.classList.add('block-content');
-      const fragment = await loadFragment(`${locale.prefix}${HEADER_PATH}/languages`);
-      menu = document.createElement('div');
-      menu.className = 'language menu';
-      menu.append(fragment);
-      content.append(menu);
-      section.append(content);
-    }
-    toggleMenu(section);
-  });
-}
-
-function decorateScheme(btn) {
-  btn.addEventListener('click', async () => {
-    const { body } = document;
-    let currPref = localStorage.getItem('color-scheme');
-    if (!currPref) {
-      currPref = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-scheme' : 'light-scheme';
-    }
-    const theme = currPref === 'dark-scheme'
-      ? { add: 'light-scheme', remove: 'dark-scheme' }
-      : { add: 'dark-scheme', remove: 'light-scheme' };
-
-    body.classList.remove(theme.remove);
-    body.classList.add(theme.add);
-    localStorage.setItem('color-scheme', theme.add);
-
-    const sections = document.querySelectorAll('.section');
-    sections.forEach((s) => setColorScheme(s));
-  });
-}
-
-function decorateNavToggle(btn) {
-  btn.addEventListener('click', () => {
-    const header = document.body.querySelector('header');
-    if (header) header.classList.toggle('is-mobile-open');
-  });
-}
-
-async function decorateAction(header, pattern) {
-  const link = header.querySelector(`[href*="${pattern}"]`);
-  if (!link) return;
-
-  const icon = link.querySelector('.icon');
-  const text = link.textContent;
-  const btn = document.createElement('button');
-  if (icon) btn.append(icon);
-  if (text) {
-    const textSpan = document.createElement('span');
-    textSpan.className = 'text';
-    textSpan.textContent = text;
-    btn.append(textSpan);
-  }
-
-  const wrapper = document.createElement('div');
-  wrapper.className = `action-wrapper ${icon?.classList[1]?.replace('icon-', '') || ''}`;
-  wrapper.append(btn);
-  link.parentElement.parentElement.replaceChild(wrapper, link.parentElement);
-
-  if (pattern === '/tools/widgets/language') decorateLanguage(btn);
-  if (pattern === '/tools/widgets/scheme') decorateScheme(btn);
-  if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
-}
 
 // DYNAMIC SUB NAVIGATION
 async function decorateNavItem(link) {
@@ -128,16 +25,63 @@ async function decorateNavItem(link) {
 
       const subNavMenu = document.createElement('div');
       subNavMenu.className = 'sub-nav-menu';
-      
+
       // Clone the fragment to avoid affecting the original
       const fragmentClone = fragment.cloneNode(true);
-      
+
+      // Split sections that have multiple <p><strong> elements
+      const sections = fragmentClone.querySelectorAll('.section');
+      sections.forEach((section) => {
+        const defaultContent = section.querySelector('.default-content');
+        if (!defaultContent) return;
+
+        const strongParagraphs = Array.from(defaultContent.querySelectorAll('p:has(strong)'));
+        if (strongParagraphs.length > 1) {
+          // Multiple strong paragraphs - need to split
+          const parent = section.parentElement;
+          const sectionIndex = Array.from(parent.children).indexOf(section);
+
+          strongParagraphs.forEach((strongP, index) => {
+            if (index === 0) return; // Keep first one in original section
+
+            // Create new section for each additional strong paragraph
+            const newSection = document.createElement('div');
+            newSection.className = 'section';
+            const newDefaultContent = document.createElement('div');
+            newDefaultContent.className = 'default-content';
+
+            // Move the strong paragraph to new section
+            newDefaultContent.appendChild(strongP.cloneNode(true));
+
+            // Check if there's a UL following this strong paragraph
+            let nextSibling = strongP.nextElementSibling;
+            if (nextSibling && nextSibling.tagName === 'UL') {
+              newDefaultContent.appendChild(nextSibling.cloneNode(true));
+            }
+
+            newSection.appendChild(newDefaultContent);
+            parent.insertBefore(newSection, parent.children[sectionIndex + index]);
+          });
+
+          // Clean up original section - keep only first strong and its following ul
+          const firstStrong = strongParagraphs[0];
+          const elementsToKeep = [firstStrong];
+          let nextEl = firstStrong.nextElementSibling;
+          if (nextEl && nextEl.tagName === 'UL') {
+            elementsToKeep.push(nextEl);
+          }
+
+          defaultContent.innerHTML = '';
+          elementsToKeep.forEach((el) => defaultContent.appendChild(el));
+        }
+      });
+
       // Add a class to prevent sub-nav links from being processed by main nav
       const subNavLinks = fragmentClone.querySelectorAll('a');
-      subNavLinks.forEach(subLink => {
+      subNavLinks.forEach((subLink) => {
         subLink.classList.add('sub-nav-link');
       });
-      
+
       subNavMenu.append(fragmentClone);
       liContainer.append(subNavMenu);
 
@@ -145,6 +89,7 @@ async function decorateNavItem(link) {
       liContainer.addEventListener('mouseenter', () => {
         subNavMenu.classList.add('is-open');
       });
+
       liContainer.addEventListener('mouseleave', () => {
         subNavMenu.classList.remove('is-open');
       });
@@ -187,7 +132,11 @@ async function decorateNavSection(section) {
 
   const logoArea = document.createElement('div');
   logoArea.className = 'logo-area';
-  logoArea.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0 16px;';
+
+  const logoElement = navContent.querySelector('picture, img');
+  if (logoElement) {
+    logoArea.appendChild(logoElement);
+  }
 
   const navArea = document.createElement('div');
   navArea.className = 'nav-area';
@@ -198,15 +147,14 @@ async function decorateNavSection(section) {
   const actionLinks = document.createElement('div');
   actionLinks.className = 'action-links';
 
-  const logoElement = navContent.querySelector('picture, img');
-  if (logoElement) {
-    logoElement.style.cssText = 'width:250px;height:auto;flex-shrink:0;';
-    logoArea.appendChild(logoElement);
-  }
+  // Only select top-level navigation links (li > p > a), not nested sub-nav links
+  const existingLinks = Array.from(navContent.querySelectorAll(':scope > ul > li > p > a'))
+    .filter((link) => !link.closest('picture'));
 
-  const existingLinks = navContent.querySelectorAll('a:not(.sub-nav-link)');
-  for (const link of existingLinks) {
-    const decorated = await decorateNavItem(link.cloneNode(true));
+  const linksToProcess = existingLinks.map((link) => link.cloneNode(true));
+
+  for (const link of linksToProcess) {
+    const decorated = await decorateNavItem(link);
     navLinks.append(decorated);
   }
 
@@ -281,11 +229,10 @@ async function decorateActionSection(section) {
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
+
   if (sections[0]) decorateBrandSection(sections[0]);
   if (sections[1]) await decorateNavSection(sections[1]);
   if (sections[2]) await decorateActionSection(sections[2]);
-
-  for (const pattern of HEADER_ACTIONS) decorateAction(fragment, pattern);
 }
 
 export default async function init(el) {
