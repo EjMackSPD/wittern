@@ -29,50 +29,42 @@ async function decorateNavItem(link) {
       // Clone the fragment to avoid affecting the original
       const fragmentClone = fragment.cloneNode(true);
 
-      // Split sections that have multiple <p><strong> elements
+      // Find the section with multiple <p><strong> and merge them into one section
       const sections = fragmentClone.querySelectorAll('.section');
-      sections.forEach((section) => {
+      const fragmentContent = fragmentClone.querySelector('.fragment-content');
+      
+      sections.forEach((section, sectionIndex) => {
         const defaultContent = section.querySelector('.default-content');
         if (!defaultContent) return;
 
         const strongParagraphs = Array.from(defaultContent.querySelectorAll('p:has(strong)'));
         if (strongParagraphs.length > 1) {
-          // Multiple strong paragraphs - need to split
-          const parent = section.parentElement;
-          const sectionIndex = Array.from(parent.children).indexOf(section);
-
+          // This section has multiple titles - we need to split it
+          const navBlocks = [];
+          
+          // Create nav-blocks for each title+content pair
           strongParagraphs.forEach((strongP, index) => {
-            if (index === 0) return; // Keep first one in original section
-
-            // Create new section for each additional strong paragraph
-            const newSection = document.createElement('div');
-            newSection.className = 'section';
-            const newDefaultContent = document.createElement('div');
-            newDefaultContent.className = 'default-content';
-
-            // Move the strong paragraph to new section
-            newDefaultContent.appendChild(strongP.cloneNode(true));
-
+            const blockDiv = document.createElement('div');
+            blockDiv.className = 'nav-block';
+            
+            // Add the strong paragraph
+            blockDiv.appendChild(strongP.cloneNode(true));
+            
             // Check if there's a UL following this strong paragraph
             let nextSibling = strongP.nextElementSibling;
             if (nextSibling && nextSibling.tagName === 'UL') {
-              newDefaultContent.appendChild(nextSibling.cloneNode(true));
+              blockDiv.appendChild(nextSibling.cloneNode(true));
             }
-
-            newSection.appendChild(newDefaultContent);
-            parent.insertBefore(newSection, parent.children[sectionIndex + index]);
+            
+            // Store the nav-block for later
+            navBlocks.push(blockDiv);
           });
-
-          // Clean up original section - keep only first strong and its following ul
-          const firstStrong = strongParagraphs[0];
-          const elementsToKeep = [firstStrong];
-          let nextEl = firstStrong.nextElementSibling;
-          if (nextEl && nextEl.tagName === 'UL') {
-            elementsToKeep.push(nextEl);
-          }
-
+          
+          // Clear the original content and add the nav-blocks
           defaultContent.innerHTML = '';
-          elementsToKeep.forEach((el) => defaultContent.appendChild(el));
+          navBlocks.forEach(block => {
+            defaultContent.appendChild(block);
+          });
         }
       });
 
@@ -88,17 +80,21 @@ async function decorateNavItem(link) {
       // hover behavior
       liContainer.addEventListener('mouseenter', () => {
         subNavMenu.classList.add('is-open');
+        liContainer.classList.add('is-open');
       });
 
       liContainer.addEventListener('mouseleave', () => {
         subNavMenu.classList.remove('is-open');
+        liContainer.classList.remove('is-open');
       });
 
       // mobile behavior
       link.addEventListener('click', (e) => {
         if (window.innerWidth <= 1280) {
           e.preventDefault();
+          const nowOpen = !subNavMenu.classList.contains('is-open');
           subNavMenu.classList.toggle('is-open');
+          liContainer.classList.toggle('is-open', nowOpen);
           const others = document.querySelectorAll('.sub-nav-menu.is-open');
           others.forEach((menu) => {
             if (menu !== subNavMenu) menu.classList.remove('is-open');

@@ -316,6 +316,12 @@ header .main-nav-section {
           display: inline-block;
         }
 
+        /* Rotate indicator when container is open */
+        &.is-open .nav-dropdown-indicator {
+          transform: rotate(90deg);
+          color: #f60;
+        }
+
         /* Sub Navigation Menu */
         .sub-nav-menu {
           position: absolute;
@@ -396,7 +402,106 @@ header .main-nav-section {
                   color: #f60;
                   font-weight: 400;
                 }
+
+              /* Additional spacing between stacked titles */
+              &:not(:first-child) {
+                margin-top: 24px;
               }
+            }
+          }
+
+          /* Style nav-block elements to match regular section styling */
+          .nav-block {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: fit-content;
+            min-height: fit-content;
+            max-height: none;
+            align-self: start;
+            width: 100%;
+            margin-bottom: 20px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            p:has(strong) {
+              margin: 0 0 12px 0;
+              padding-bottom: 12px;
+              border-bottom: 2px solid #f60;
+              font-weight: 600;
+              font-size: 16px;
+              color: #333;
+
+              &::after {
+                content: " >>";
+                color: #f60;
+                font-weight: 400;
+                font-size: 12px;
+              }
+            }
+
+            ul {
+              list-style: none;
+              margin: 0;
+              padding: 0;
+
+              li {
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f0f0;
+
+                &:last-child {
+                  border-bottom: none;
+                }
+
+                a {
+                  color: #666;
+                  text-decoration: none;
+                  font-size: 14px;
+                  transition: color 0.2s ease;
+
+                  &:hover {
+                    color: #f60;
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            }
+          }
+
+          /* Remove spacing between nav-blocks in the same section */
+          .section:has(.nav-block) .nav-block {
+            margin-bottom: 0;
+          }
+          }
+
+          /* Sections containing nav-blocks should stack them vertically and remove section styling */
+          .fragment-content .section:has(.nav-block) {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            
+            .default-content {
+              display: flex;
+              flex-direction: column;
+              gap: 0;
+              padding: 0 !important;
+              background: transparent !important;
+              border: none !important;
+              box-shadow: none !important;
+            }
+          }
 
               /* Sub Items List */
               ul {
@@ -458,7 +563,8 @@ header .main-nav-section {
 
         /* Hover state for parent link */
         &:hover {
-          a {
+          /* Only color the top-level nav link, not sub-nav links */
+          > a {
             color: #f60;
           }
 
@@ -692,8 +798,59 @@ header .main-nav-section {
                   }
                 }
               }
+              }
+
+              /* Mobile styles for nav-blocks */
+              .nav-block {
+                background-color: transparent;
+                border-radius: 0;
+                padding: 12px 0;
+                box-shadow: none;
+                border: none;
+                margin-bottom: 0;
+                border-bottom: 1px solid rgb(255 255 255 / 10%);
+
+                &:last-child {
+                  border-bottom: none;
+                }
+
+                &:hover {
+                  transform: none;
+                  box-shadow: none;
+                }
+
+                p:has(strong) {
+                  color: #fff;
+                  font-size: 14px;
+                  font-weight: 600;
+                  border-bottom: 1px solid rgb(255 255 255 / 20%);
+                  padding-bottom: 6px;
+                  margin-bottom: 8px;
+
+                  &::after {
+                    content: '>>';
+                    font-size: 10px;
+                    color: #f60;
+                    margin-left: 4px;
+                  }
+                }
+
+                ul {
+                  li {
+                    margin: 0 0 4px 0;
+
+                    a {
+                      color: white;
+                      font-size: 12px;
+
+                      &:hover {
+                        color: #f60;
+                      }
+                    }
+                  }
+                }
+              }
             }
-          }
 
           /* Mobile dropdown indicator */
           .nav-dropdown-indicator {
