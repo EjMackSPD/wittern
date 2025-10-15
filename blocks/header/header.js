@@ -31,9 +31,8 @@ async function decorateNavItem(link) {
 
       // Find the section with multiple <p><strong> and merge them into one section
       const sections = fragmentClone.querySelectorAll('.section');
-      const fragmentContent = fragmentClone.querySelector('.fragment-content');
-      
-      sections.forEach((section, sectionIndex) => {
+
+      sections.forEach((section) => {
         const defaultContent = section.querySelector('.default-content');
         if (!defaultContent) return;
 
@@ -41,28 +40,28 @@ async function decorateNavItem(link) {
         if (strongParagraphs.length > 1) {
           // This section has multiple titles - we need to split it
           const navBlocks = [];
-          
+
           // Create nav-blocks for each title+content pair
-          strongParagraphs.forEach((strongP, index) => {
+          strongParagraphs.forEach((strongP) => {
             const blockDiv = document.createElement('div');
             blockDiv.className = 'nav-block';
-            
+
             // Add the strong paragraph
             blockDiv.appendChild(strongP.cloneNode(true));
-            
+
             // Check if there's a UL following this strong paragraph
-            let nextSibling = strongP.nextElementSibling;
+            const nextSibling = strongP.nextElementSibling;
             if (nextSibling && nextSibling.tagName === 'UL') {
               blockDiv.appendChild(nextSibling.cloneNode(true));
             }
-            
+
             // Store the nav-block for later
             navBlocks.push(blockDiv);
           });
-          
+
           // Clear the original content and add the nav-blocks
           defaultContent.innerHTML = '';
-          navBlocks.forEach(block => {
+          navBlocks.forEach((block) => {
             defaultContent.appendChild(block);
           });
         }
@@ -154,17 +153,31 @@ async function decorateNavSection(section) {
     navLinks.append(decorated);
   }
 
+  // First, check if there are action links in the current navigation section
+  const searchLink = navContent.querySelector('a[href*="search"]');
+  const contactLink = navContent.querySelector('a[href*="contact"]');
+  if (searchLink) actionLinks.append(searchLink.cloneNode(true));
+  if (contactLink) {
+    const cloned = contactLink.cloneNode(true);
+    cloned.classList.add('contact-btn');
+    actionLinks.append(cloned);
+  }
+
+  // Then check other sections (skip current section to avoid duplication)
   const fragment = section.closest('.header-content');
   if (fragment) {
     const allSections = fragment.querySelectorAll('.section');
     allSections.forEach((sect) => {
+      // Skip the current section (already processed above)
+      if (sect === section) return;
+
       const sectContent = sect.querySelector('.default-content');
       if (sectContent) {
-        const searchLink = sectContent.querySelector('a[href*="search"]');
-        const contactLink = sectContent.querySelector('a[href*="contact"]');
-        if (searchLink) actionLinks.append(searchLink.cloneNode(true));
-        if (contactLink) {
-          const cloned = contactLink.cloneNode(true);
+        const searchLinkOther = sectContent.querySelector('a[href*="search"]');
+        const contactLinkOther = sectContent.querySelector('a[href*="contact"]');
+        if (searchLinkOther) actionLinks.append(searchLinkOther.cloneNode(true));
+        if (contactLinkOther) {
+          const cloned = contactLinkOther.cloneNode(true);
           cloned.classList.add('contact-btn');
           actionLinks.append(cloned);
         }
@@ -175,11 +188,9 @@ async function decorateNavSection(section) {
   const mobileMenuBtn = document.createElement('button');
   mobileMenuBtn.className = 'mobile-menu-btn';
   mobileMenuBtn.innerHTML = `
-    <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="30" height="3" fill="white" rx="1.5"/>
-      <rect y="10.5" width="30" height="3" fill="white" rx="1.5"/>
-      <rect y="21" width="30" height="3" fill="white" rx="1.5"/>
-    </svg>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
   `;
   mobileMenuBtn.setAttribute('aria-label', 'Toggle mobile menu');
   mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -217,10 +228,8 @@ async function decorateNavSection(section) {
 
 async function decorateActionSection(section) {
   section.classList.add('actions-section');
-  const links = section.querySelectorAll('a');
-  links.forEach((l) => {
-    if (l.textContent.toLowerCase().includes('contact')) l.classList.add('contact-btn');
-  });
+  // Remove the actions section entirely since it's a duplicate
+  section.remove();
 }
 
 async function decorateHeader(fragment) {
