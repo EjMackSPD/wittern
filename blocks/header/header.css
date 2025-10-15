@@ -178,12 +178,15 @@ header .main-nav-section {
 
     /* White logo filter */
     img, svg { filter: brightness(0) invert(1); }
+    
+    /* Exclude hamburger button from logo filter */
+    .mobile-menu-btn * { filter: none !important; }
 
     /* Mobile Hamburger Menu Button */
     .mobile-menu-btn {
       display: flex !important;
-      background: red !important;
-      border: 2px solid yellow !important;
+      background: none;
+      border: none;
       cursor: pointer;
       padding: 12px;
       flex-direction: column;
@@ -194,7 +197,7 @@ header .main-nav-section {
       border-radius: 8px;
       transition: background-color 0.3s ease;
       position: relative;
-      z-index: 10000;
+      z-index: 99999 !important;
 
       &:hover { background-color: rgb(255 255 255 / 20%); }
 
@@ -202,12 +205,14 @@ header .main-nav-section {
         display: block !important;
         width: 28px !important;
         height: 3px !important;
-        background-color: #000 !important;
+        background-color: #fff !important;
         margin: 4px 0 !important;
         transition: all 0.3s ease;
         border-radius: 2px;
         position: relative;
         z-index: 10001;
+        filter: none !important;
+        opacity: 1 !important;
       }
 
       /* Animated hamburger to X */

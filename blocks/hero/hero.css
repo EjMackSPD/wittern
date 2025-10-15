@@ -200,6 +200,7 @@
       padding: 0 10rem;
       position: relative;
       z-index: 2;
+      margin: 0 auto;
 
       /* Mobile responsive padding */
       @media (max-width: 768px) {
