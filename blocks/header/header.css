@@ -61,6 +61,7 @@ header {
     background-color: transparent !important;
     padding-left: 0 !important;
     transform: none !important;
+    box-shadow: none !important;
   }
 
   /* Make sub-nav title links bold */
