@@ -110,7 +110,7 @@ async function decorateNavItem(link) {
 }
 
 function decorateBrandSection(section) {
-  section.classList.add('brand-section');
+  section.classList.add('brands-section');
   const brandLink = section.querySelector('a');
   if (brandLink && brandLink.childNodes.length > 1) {
     const [, text] = brandLink.childNodes;

@@ -13,6 +13,7 @@ header {
   --logo-width: 40px;
   --logo-height: 40px;
   --mega-columns: 4;
+  --header-orange: #FF5A24;
 
   display: block;
   position: relative;
@@ -40,6 +41,34 @@ header {
     margin-block: 6px;
   }
 
+  /* Override global .btn styles for sub-nav links */
+  .sub-nav-link {
+    border-radius: 0 !important;
+    padding: 8px 0 !important;
+    border: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    color: #000 !important;
+  }
+
+  /* Sub-nav title links hover with orange color only */
+  .sub-nav-menu p:has(strong) a:hover,
+  .sub-nav-menu .nav-block p:has(strong) a:hover {
+    color: var(--header-orange) !important;
+    background-color: transparent !important;
+    padding-left: 0 !important;
+    transform: none !important;
+  }
+
+  /* Make sub-nav title links bold */
+  .sub-nav-menu p:has(strong) a,
+  .sub-nav-menu .nav-block p:has(strong) a {
+    font-weight: 600 !important;
+  }
+
   .header-content {
     display: block;
     width: 100%;
@@ -64,7 +93,7 @@ header .brands-section {
     left: 0;
     right: 0;
     height: 2px;
-    background-color: #f60;
+    background-color: var(--header-orange);
     width: 100vw;
     margin-left: calc(50% - 50vw);
     z-index: 1;
@@ -95,19 +124,19 @@ header .brands-section {
   }
 
   .default-content {
-    min-height: 34px;
+    min-height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     max-width: var(--grid-container-width);
     margin: 0 auto;
-    padding: 2px var(--spacing-l);
+    padding: 1px var(--spacing-l);
     flex-wrap: wrap;
     gap: 4px;
 
     @media (max-width: 1280px) {
-      min-height: 44px;
-      padding: 4px var(--spacing-l);
+      min-height: 28px;
+      padding: 2px var(--spacing-l);
       overflow-x: auto;
       overflow-y: hidden;
       flex-wrap: nowrap;
@@ -127,6 +156,7 @@ header .brands-section {
       display: inline;
       line-height: 1.2;
       white-space: nowrap;
+      text-transform: uppercase;
 
       @media (max-width: 1280px) {
         font-size: 13px;
@@ -146,13 +176,13 @@ header .brands-section {
         transition: color 0.3s ease;
 
         &:hover {
-          color: #f60;
+          color: var(--header-orange);
         }
 
         /* Active brand (Vending.com) - underlined */
         &[href="https://www.vending.com"] {
           text-decoration: underline;
-          text-decoration-color: #f60;
+          text-decoration-color: var(--header-orange);
           text-decoration-thickness: 3px;
           text-underline-offset: 9px;
         }
@@ -296,7 +326,7 @@ header .main-nav-section {
         gap: 4px;
 
         &:hover {
-          color: #f60;
+          color: var(--header-orange);
         }
       }
 
@@ -319,18 +349,18 @@ header .main-nav-section {
         /* Rotate indicator when container is open */
         &.is-open .nav-dropdown-indicator {
           transform: rotate(90deg);
-          color: #f60;
+          color: var(--header-orange);
         }
 
         /* Sub Navigation Menu */
         .sub-nav-menu {
           position: absolute;
           top: 2rem;
-          left: -15rem;
+          left: -14rem;
           background-color: transparent;
           padding: 24px;
-          width: calc(90vw - 20px);
-          max-width: calc(75vw - 20px);
+          width: calc(95vw);
+          max-width: 1200px;
           min-height: fit-content;
           height: fit-content;
           opacity: 0;
@@ -349,8 +379,7 @@ header .main-nav-section {
           /* Fragment Content Container */
           .fragment-content {
             display: grid !important;
-            grid-auto-flow: column !important;
-            grid-auto-columns: minmax(220px, 1fr) !important;
+            grid-template-columns: repeat(4, 1fr) !important;
             gap: 20px !important;
             max-width: 100% !important;
             padding: 0 !important;
@@ -373,8 +402,8 @@ header .main-nav-section {
             align-self: start !important;
 
             &:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+              transform: none !important;
+              box-shadow: none !important;
             }
 
             .default-content {
@@ -385,22 +414,22 @@ header .main-nav-section {
 
               /* Category Title */
               p {
-                margin: 0 0 16px 0;
-                font-size: 16px;
-                font-weight: 700;
-                color: #333;
-                border-bottom: 2px solid #f60;
-                padding-bottom: 8px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                width: 100%;
+                margin: 0 0 16px 0 !important;
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                color: #333 !important;
+                border-bottom: 2px solid var(--header-orange) !important;
+                padding-bottom: 8px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                width: 100% !important;
 
                 &::after {
-                  content: '>>';
-                  font-size: 12px;
-                  color: #f60;
-                  font-weight: 400;
+                  content: '>>' !important;
+                  font-size: 12px !important;
+                  color: var(--header-orange) !important;
+                  font-weight: 400 !important;
                 }
 
               /* Additional spacing between stacked titles */
@@ -412,36 +441,47 @@ header .main-nav-section {
 
           /* Style nav-block elements to match regular section styling */
           .nav-block {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            height: fit-content;
-            min-height: fit-content;
-            max-height: none;
-            align-self: start;
-            width: 100%;
+            background-color: #fff !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.3s ease !important;
+            height: fit-content !important;
+            min-height: fit-content !important;
+            max-height: none !important;
+            align-self: start !important;
+            width: 100% !important;
+            max-width: 100% !important;
             margin-bottom: 20px;
 
             &:last-child {
               margin-bottom: 0;
             }
 
+            /* Override margin for nav-blocks in sections */
+            .section:has(.nav-block) & {
+              margin-bottom: 0 !important;
+              margin-top: 0 !important;
+            }
+
             p:has(strong) {
-              margin: 0 0 12px 0;
-              padding-bottom: 12px;
-              border-bottom: 2px solid #f60;
-              font-weight: 600;
-              font-size: 16px;
-              color: #333;
+              margin: 0 0 12px 0 !important;
+              padding-bottom: 12px !important;
+              border-bottom: 2px solid var(--header-orange) !important;
+              font-weight: 600 !important;
+              font-size: 16px !important;
+              color: #333 !important;
+              display: flex !important;
+              align-items: center !important;
+              gap: 8px !important;
+              width: 100% !important;
 
               &::after {
-                content: " >>";
-                color: #f60;
-                font-weight: 400;
-                font-size: 12px;
+                content: " >>" !important;
+                color: var(--header-orange) !important;
+                font-weight: 400 !important;
+                font-size: 12px !important;
               }
             }
 
@@ -463,23 +503,33 @@ header .main-nav-section {
                   text-decoration: none;
                   font-size: 14px;
                   transition: color 0.2s ease;
+                  border-radius: 0 !important;
 
                   &:hover {
-                    color: #f60;
+                    color: var(--header-orange);
                   }
                 }
               }
             }
 
             &:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+              transform: none !important;
+              box-shadow: none !important;
             }
           }
 
-          /* Remove spacing between nav-blocks in the same section */
+          /* Remove spacing between nav-blocks in the same section and constrain width */
           .section:has(.nav-block) .nav-block {
-            margin-bottom: 0;
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            
+            &:not(:first-child) {
+              margin-top: 0 !important;
+            }
           }
           }
 
@@ -491,6 +541,9 @@ header .main-nav-section {
             padding: 0 !important;
             border-radius: 0 !important;
             margin: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
             
             .default-content {
               display: flex;
@@ -500,6 +553,13 @@ header .main-nav-section {
               background: transparent !important;
               border: none !important;
               box-shadow: none !important;
+              width: 100% !important;
+              max-width: 100% !important;
+              overflow: hidden !important;
+              
+              .nav-block:not(:first-child) {
+                margin-top: -20px !important;
+              }
             }
           }
 
@@ -532,11 +592,11 @@ header .main-nav-section {
                     display: block;
                     padding: 8px 0;
                     transition: all 0.2s ease;
-                    border-radius: 4px;
                     width: 100%;
+                    border-radius: 0 !important;
 
                     &:hover {
-                      color: #f60;
+                      color: var(--header-orange);
                       background-color: #fff5f0;
                       padding-left: 8px;
                     }
@@ -544,8 +604,8 @@ header .main-nav-section {
                 }
               }
 
-              /* Empty sections with just titles */
-              p:not(:first-child) {
+              /* Empty sections with just titles - but not title paragraphs with strong tags */
+              p:not(:first-child):not(:has(strong)) {
                 margin: 8px 0;
                 font-size: 14px;
                 font-weight: 400;
@@ -565,11 +625,11 @@ header .main-nav-section {
         &:hover {
           /* Only color the top-level nav link, not sub-nav links */
           > a {
-            color: #f60;
+            color: var(--header-orange);
           }
 
           .nav-dropdown-indicator {
-            color: #f60;
+            color: var(--header-orange);
             transform: rotate(90deg);
           }
         }
@@ -593,7 +653,7 @@ header .main-nav-section {
         gap: 8px;
 
         &:hover {
-          color: #f60;
+          color: var(--header-orange);
         }
 
         /* Search Icon Button */
@@ -623,7 +683,7 @@ header .main-nav-section {
 
         /* Contact Us Button */
         &[href*="contact"] {
-          background-color: #f60;
+          background-color: var(--header-orange);
           color: #fff;
           padding: 8px 16px;
           border-radius: 20px;
@@ -631,14 +691,15 @@ header .main-nav-section {
           font-weight: 600;
           font-size: var(--body-font-size-xs);
           letter-spacing: 0.5px;
-          border: 2px solid #f60;
+          border: 2px solid var(--header-orange);
 
           &:hover {
-            background-color: #e55a00;
-            border-color: #e55a00;
+            background-color: var(--header-orange);
+            border-color: var(--header-orange);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgb(255 102 0 / 30%);
+            box-shadow: 0 8px 25px var(--header-orange) / 30%);
             color: #fff;
+            opacity: 0.9;
           }
         }
       }
@@ -773,7 +834,7 @@ header .main-nav-section {
                   &::after {
                     content: '>>';
                     font-size: 10px;
-                    color: #f60;
+                    color: var(--header-orange);
                     margin-left: 4px;
                   }
                 }
@@ -790,7 +851,7 @@ header .main-nav-section {
                       border-radius: 0;
 
                       &:hover {
-                        color: #f60;
+                        color: var(--header-orange);
                         background-color: transparent;
                         padding-left: 20px;
                       }
@@ -830,7 +891,7 @@ header .main-nav-section {
                   &::after {
                     content: '>>';
                     font-size: 10px;
-                    color: #f60;
+                    color: var(--header-orange);
                     margin-left: 4px;
                   }
                 }
@@ -844,7 +905,7 @@ header .main-nav-section {
                       font-size: 12px;
 
                       &:hover {
-                        color: #f60;
+                        color: var(--header-orange);
                       }
                     }
                   }
@@ -1017,7 +1078,7 @@ header .brand-section {
       transition: color 0.3s ease;
 
       &:hover {
-        color: #f60;
+        color: var(--header-orange);
       }
     }
   }
@@ -1043,7 +1104,7 @@ header .actions-section {
   }
 
   .contact-btn {
-    background-color: #f60;
+    background-color: var(--header-orange);
     color: #fff;
     padding: 8px 16px;
     border-radius: 20px;
@@ -1054,7 +1115,8 @@ header .actions-section {
     margin-left: 16px;
 
     &:hover {
-      background-color: #e55a00;
+      background-color: var(--header-orange);
+      opacity: 0.9;
       }
     }
 
