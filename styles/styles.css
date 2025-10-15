@@ -323,7 +323,7 @@ a {
 /* sections */
 .section {
   display: block;
-  padding: 6px 0px;
+  padding: 2px 0px;
 
   > .default-content {
     max-width: 1440px;
@@ -346,14 +346,14 @@ a {
     margin-right: calc(50% - 50vw) !important;
 
     > .default-content {
-      max-width: none !important;
-      margin: 0;
+      max-width: 1440px !important;
+      margin: 0 auto;
       padding: 0;
     }
 
     > .block-content {
-      max-width: none !important;
-      margin: 0;
+      max-width: 1440px !important;
+      margin: 0 auto;
       padding: 0;
     }
   }

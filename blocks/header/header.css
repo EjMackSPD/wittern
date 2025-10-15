@@ -181,9 +181,9 @@ header .main-nav-section {
 
     /* Mobile Hamburger Menu Button */
     .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
+      display: flex !important;
+      background: red !important;
+      border: 2px solid yellow !important;
       cursor: pointer;
       padding: 12px;
       flex-direction: column;
@@ -202,7 +202,7 @@ header .main-nav-section {
         display: block !important;
         width: 28px !important;
         height: 3px !important;
-        background-color: #fff !important;
+        background-color: #000 !important;
         margin: 4px 0 !important;
         transition: all 0.3s ease;
         border-radius: 2px;
@@ -217,7 +217,7 @@ header .main-nav-section {
         .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
       }
 
-      @media (max-width: 1280px) { display: flex !important; }
+      /* Always visible for testing */
     }
 
     @media (max-width: 1280px) {
@@ -767,7 +767,7 @@ header .main-nav-section {
             background-color: var(--header-orange);
             border-color: var(--header-orange);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--header-orange) / 30%);
+            box-shadow: 0 8px 25px rgb(255 90 36 / 30%);
             color: #fff;
             opacity: 0.9;
           }
