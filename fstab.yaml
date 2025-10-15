@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://da.live/ejmackspd/wittern"
+    url: "https://admin.hlx.page/live/ejmackspd/wittern/"
     type: "markup"
     suffix: ".html"
