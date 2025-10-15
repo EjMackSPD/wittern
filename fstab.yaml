@@ -1,0 +1,5 @@
+mountpoints:
+  /:
+    url: "https://da.live/#/ejmackspd/wittern"
+    type: "markup"
+    suffix: ".html"
