@@ -323,7 +323,7 @@ a {
 /* sections */
 .section {
   display: block;
-  padding: var(--spacing-xl) var(--spacing-l);
+  padding: 2px 0px;
 
   > .default-content {
     max-width: 1440px;
