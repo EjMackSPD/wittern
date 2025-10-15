@@ -1,6 +1,6 @@
 mountpoints:
   /:
-    url: https://content.da.live/adobe/da-live/
+    url: https://content.da.live/ejmackspd/wittern/
     type: markup
 
 folders:
