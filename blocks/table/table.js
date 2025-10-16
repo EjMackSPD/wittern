@@ -1,4 +1,19 @@
 export default function init(el) {
+  // Handle div-based table structure
+  const divRows = el.querySelectorAll('.table > div');
+  if (divRows.length > 0) {
+    // Apply classes to div rows for styling
+    divRows.forEach((row, index) => {
+      if (index === 0) {
+        row.classList.add('table-header-row');
+      } else {
+        row.classList.add('table-content-row');
+      }
+    });
+    return;
+  }
+
+  // Handle traditional table structure
   const tables = el.querySelectorAll('table');
   for (const table of tables) {
     let thead = table.querySelector('table > thead');
