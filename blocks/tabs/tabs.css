@@ -120,6 +120,7 @@
   color: #555;
   line-height: 1.7;
   margin-bottom: 16px;
+  margin-top: 0px;
 }
 
 .tabs .tabs-panel a {
@@ -136,10 +137,12 @@
 .tabs .tabs-panel ol {
   color: #555;
   line-height: 1.7;
+  margin-top: 0px;
 }
 
 .tabs .tabs-panel li {
-  margin-bottom: 8px;
+  margin-bottom: 1rem;
+  margin-top: 0px;
 }
 
 /* Responsive adjustments */
