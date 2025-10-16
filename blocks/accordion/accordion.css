@@ -42,7 +42,7 @@
   cursor: pointer;
   list-style: none;
   overflow: auto;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   background-color: rgb(0 0 0 / 60%);
   font-weight: 600;
   font-size: var(--body-font-size-l);
@@ -51,13 +51,7 @@
 }
 
 .accordion details[open] summary {
-  background-color: rgb(255 90 36 / 20%);
   border-bottom-color: rgb(255 90 36 / 30%);
-  color: var(--color-brand);
-}
-
-.accordion details summary:focus,
-.accordion details summary:hover {
   color: var(--color-brand);
 }
 
@@ -165,14 +159,6 @@
   .accordion details {
     background-color: rgb(0 0 0 / 60%);
     border-color: rgba(255 255 255, 0.1);
-  }
-  
-  .accordion details summary:hover {
-    background-color: rgb(255 255 255 / 10%);
-  }
-  
-  .accordion details[open] summary {
-    background-color: rgb(255 90 36 / 15%);
   }
   
   .accordion details .accordion-item-body {
