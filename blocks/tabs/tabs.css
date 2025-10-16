@@ -1,11 +1,11 @@
 /* stylelint-disable property-no-vendor-prefix */
 .tabs {
-  background: #fff;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgb(0 0 0 / 15%);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
   margin: var(--spacing-xl) auto;
   max-width: 1440px;
 }
@@ -14,8 +14,8 @@
   display: flex;
   gap: 8px;
   padding: 20px 20px 0 20px;
-  background: #f8f9fa;
-  border-bottom: 2px solid rgba(255 90 36, 0.2);
+  background: transparent;
+  border-bottom: none;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -86,11 +86,14 @@
   padding: 32px;
   background: #fff;
   color: #333;
-  border: none;
-  border-radius: 0 0 20px 20px;
+  border: 1px solid rgba(83, 83, 83, 0.15);
+  border-radius: 20px;
   overflow: auto;
   min-height: 200px;
   animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 8px 32px rgb(0 0 0 / 15%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .tabs .tabs-panel[aria-hidden='true'] {
