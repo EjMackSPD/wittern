@@ -1,56 +1,59 @@
 /* stylelint-disable property-no-vendor-prefix */
 .columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-xl, 2rem);
   padding: var(--spacing-xl) 0;
   max-width: 1440px;
   margin: 0 auto;
-  justify-content: center;
-  align-items: stretch;
 
-  /* Force 4 columns on large screens */
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .column {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl, 2rem);
+    align-items: stretch;
+    justify-content: center;
 
-  @media (max-width: 1199px) and (min-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+    /* Force 4 columns on large screens */
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
-  @media (max-width: 899px) and (min-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    @media (max-width: 1199px) and (min-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
-  @media (max-width: 599px) {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-l, 1.5rem);
-  }
-}
+    @media (max-width: 899px) and (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  padding: 32px;
-  background: #000;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  transition: all 0.4s ease;
-  border: 1px solid rgba(83, 83, 83, 0.15);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 15%);
-  height: 100%;
+    @media (max-width: 599px) {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-l, 1.5rem);
+    }
 
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgb(0 0 0 / 25%);
-    border-color: rgb(255 90 36 / 30%);
-    background: #000;
+    > div {
+      display: flex;
+      flex-direction: column;
+      padding: 32px;
+      background: #000;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(83, 83, 83, 0.15);
+      box-shadow: 0 8px 32px rgb(0 0 0 / 15%);
+      height: 100%;
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgb(0 0 0 / 25%);
+        border-color: rgb(255 90 36 / 30%);
+        background: #000;
+      }
+    }
   }
 }
 
 /* Typography styles for column content */
-.column {
+.column > div {
   h2,
   h3 {
     color: #fff;
