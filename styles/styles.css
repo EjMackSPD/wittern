@@ -179,12 +179,8 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--color-background);
-  background-image: linear-gradient(
-    135deg,
-    light-dark(#fafafa, #000) 0%,
-    light-dark(#f0f0f0, #0a0a0a) 100%
-  );
+  background-color: #fff;
+  background-image: none;
   color: var(--color-text);
   font-family: var(--font-family);
   font-size: var(--body-font-size-m);
@@ -378,6 +374,7 @@ a {
 main {
   position: relative;
   z-index: 1;
+  background-color: #fff;
   top: -54px; /* No extra padding needed since only nav-area is fixed */
 
   @media (max-width: 1024px) {
