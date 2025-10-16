@@ -16,6 +16,7 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     height: 100%;
+    padding: 0 1rem;
   }
 
   &:not(.quiet) {
@@ -77,6 +78,18 @@
   /* Variations */
   &.center {
     text-align: center;
+  }
+
+  &.small {
+    width: 200px;
+    max-width: 200px;
+    margin: 2rem auto;
+    
+    .card-content-container {
+      padding-top: 22px;
+      padding-left: 0px;
+      padding-bottom: 0px;
+    }
   }
 
   &.quiet {
