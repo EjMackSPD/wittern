@@ -422,6 +422,7 @@ h2 {
 
 h3 {
   font-size: var(--heading-font-size-l);
+  margin-top: 8rem;
 }
 
 h4 {
