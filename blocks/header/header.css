@@ -544,7 +544,7 @@ header .main-nav-section {
 
           /* Remove spacing between nav-blocks in the same section and constrain width */
           .section:has(.nav-block) .nav-block {
-            margin-bottom: 0 !important;
+            margin-bottom: 2rem !important;
             margin-top: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
